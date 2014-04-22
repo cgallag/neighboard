@@ -47,10 +47,37 @@
         </div>
         
         <div id="pages-content" style="padding: 70px;">
-          <div id="home">Home</div>
-          <div id="feedback" style="display: none;">Feedback</div>
-          <div id="petitions" style="display: none;">Petitions</div>
-          <div id="settings" style="display: none;">Settings</div>
+          <div id="home">
+              <div class="col-md-4">
+                  <div class="panel panel-default" id="claflin">
+                      <!-- Default panel contents -->
+                      <div class="panel-heading">Claflin</div>
+                    
+                      <!-- List group -->
+                      <div class="list-group claflin">
+                          <a href="#" class="list-group-item active">
+                            Cras justo odio
+                          </a>
+                          <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                          <a href="#" class="list-group-item">Morbi leo risus</a>
+                          <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                          <a href="#" class="list-group-item">Vestibulum at eros</a>
+                      </div>
+                </div>
+            </div>
+          </div>
+          
+          <div id="feedback" style="display: none;">
+              Feedback
+          </div>
+          
+          <div id="petitions" style="display: none;">
+              Petitions
+          </div>
+          
+          <div id="settings" style="display: none;">
+              Settings
+          </div>
         </div>
         
         
@@ -71,6 +98,11 @@
                     $(this).addClass('active');
                     var newActive = $(this).attr('id').slice(0,-4);
                     $("#"+newActive).show();
+                });
+                
+                $(".list-group").on('click', 'a', function() {
+                    $('a.active').removeClass('active');
+                    $(this).addClass('active');
                 });
                 
             });
