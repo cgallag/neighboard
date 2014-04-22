@@ -51,14 +51,23 @@
           <div id="home">
               <div class="col-md-2">
                   <div class="bs-docs-sidebar hidden-print" role="complementary">
-                    <ul class="nav bs-docs-sidenav">
-                        <li class="active"><a href="#">New post</a></li>
-                        <li><a href="#">New board</a></li>
+                    <ul class="nav bs-docs-sidenav" id="board-manager">
+                        <li id="new-post" class="active"><a href="#">New post</a></li>
+                        <li id="new-board"><a href="#">New board</a></li>
+                        <li id="board-list">
+                            <a href="#">Boards</a>
+                            <div class="col-md-offset-1">
+                                <ul class="nav" style="display: none;">
+                                    <li id="claflin"><a href="#">Claflin</a></li>
+                                    <li id="class-2014"><a href="#">Class of 2014</a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                   </div>
                 </div>
               
-              <div class="col-md-4">
+              <div class="col-md-5">
                   <div class="panel panel-default" id="claflin">
                       <!-- Default panel contents -->
                       <div class="panel-heading">Claflin <span class="badge pull-right">10</span></div>
@@ -89,7 +98,7 @@
                 </div>
             </div>
               
-            <div class="col-md-4">
+            <div class="col-md-5">
                   <div class="panel panel-default" id="class-2014">
                       <!-- Default panel contents -->
                       <div class="panel-heading">Class of 2014 <span class="badge pull-right">2</span></div>
@@ -158,6 +167,12 @@
                 $(".list-group").on('click', 'a', function() {
                     $('a.active').removeClass('active');
                     $(this).addClass('active');
+                });
+                
+                $("#board-manager").on('click', 'li', function() {
+                    var thisID = $(this).attr('id');
+                    console.log('#' + thisID + ' ul');
+                    $('#' + thisID + ' ul').toggle(); 
                 });
                 
             });
