@@ -24,13 +24,70 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <textarea class="form-control" rows="3" placeholder="Message"></textarea>
+                            <textarea class="form-control" rows="3" id="new-post-message" placeholder="Message"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button type="submit" class="btn btn-default">Post</button>
+                            <div class="input-group">
+                              <span class="input-group-addon">
+                                  <span class="glyphicon glyphicon-tag"></span>
+                              </span>
+                              <input type="text" class="form-control" id="new-post-tags">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <button type="submit" class="btn btn-default">Post</button>
+                            
+                            <button type="button" class="btn btn-link pull-right" id="make-post" data-dismiss="modal">
+                              <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+        
+        <div class="modal fade" id="new-board-modal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Create New Board</h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                          <input type="text" class="form-control" id="new-board-title" placeholder="Name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="btn-group" data-toggle="buttons">
+                              <label class="btn btn-default">
+                                <input type="radio" id="public-board" value="public">Public 
+                              </label>
+                              <label class="btn btn-default">
+                                <input type="radio" id="private-board" value="private">Private 
+                              </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <button type="submit" class="btn btn-default">Create Board</button>
+                            
+                            <button type="button" class="btn btn-link pull-right" id="make-board" data-dismiss="modal">
+                              <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -57,21 +114,12 @@
                 <li id="home-nav" class="active"><a href="#">Home</a></li>
                 <li id="feedback-nav"><a href="#feedback">Feedback</a></li>
                 <li id="petitions-nav"><a href="#petitions">Petitions</a></li>
-                <!--<li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li class="dropdown-header">Nav header</li>
-                    <li><a href="#">Separated link</a></li>
-                    <li><a href="#">One more separated link</a></li>
-                  </ul>
-                </li>-->
               </ul>
               <ul class="nav navbar-nav navbar-right pages">
-                <p class="navbar-text">Caroline Gallagher</p>
+                <p class="navbar-text">
+                    <span class="glyphicon glyphicon-user"></span>
+                    Caroline Gallagher
+                </p>
                 <li id="settings-nav"><a href="#settings"><span class="glyphicon glyphicon-cog"></span></a></li>
               </ul>
             </div><!--/.nav-collapse -->
@@ -213,6 +261,10 @@
                 
                 $("#new-post").on('click', function() {
                     $("#new-post-modal").modal(); 
+                });
+                
+                $("#new-board").on('click', function() {
+                   $("#new-board-modal").modal();
                 });
                 
             });
