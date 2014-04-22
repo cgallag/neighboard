@@ -8,6 +8,38 @@
     </head>
 
     <body>
+        <div class="modal fade" id="new-post-modal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">New Post</h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                          <input type="text" class="form-control" id="new-post-subject" placeholder="Subject">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <textarea class="form-control" rows="3" placeholder="Message"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-default">Post</button>
+                        </div>
+                    </div>
+                </form>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+        
         <!-- Fixed navbar -->
         <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
           <div class="container">
@@ -52,8 +84,12 @@
               <div class="col-md-2">
                   <div class="bs-docs-sidebar hidden-print" role="complementary">
                     <ul class="nav bs-docs-sidenav" id="board-manager">
-                        <li id="new-post" class="active"><a href="#">New post</a></li>
-                        <li id="new-board"><a href="#">New board</a></li>
+                        <li id="new-post" class="active">
+                            <a href="#">New post</a>
+                        </li>
+                        <li id="new-board">
+                            <a href="#">New board</a>
+                        </li>
                         <li id="board-list">
                             <a href="#">Boards</a>
                             <div class="col-md-offset-1">
@@ -173,6 +209,10 @@
                     var thisID = $(this).attr('id');
                     console.log('#' + thisID + ' ul');
                     $('#' + thisID + ' ul').toggle(); 
+                });
+                
+                $("#new-post").on('click', function() {
+                    $("#new-post-modal").modal(); 
                 });
                 
             });
