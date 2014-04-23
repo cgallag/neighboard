@@ -1,0 +1,1 @@
+delete from members where boardId=1 and userId=4;

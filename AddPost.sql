@@ -1,0 +1,1 @@
+INSERT INTO form(formId, boardId, created, title, content, creator, type) VALUES (4, 4, "2014-04-15 12:00:43", "Community Post", "LET THE FLAME WARS BEGIN", 1, "post");
