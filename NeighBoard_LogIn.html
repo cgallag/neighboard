@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SignIn Template for NeighBoard</title>
+    <title>Sign In to NeighBoard</title>
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -23,17 +23,15 @@
 
       <form class="form-signin" role="form">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="email" class="form-control" placeholder="User ID" required autofocus>
-        <input type="password" class="form-control" placeholder="Password" required>
+        <input id="username" type="email" class="form-control" placeholder="User ID" required autofocus>
+        <input id="password" type="password" class="form-control" placeholder="Password" required>
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <input type="button" onClick="parent.location='board.html'" class="btn btn-lg btn-primary btn-block" id="signin" type="submit" value="Sign in">
       </form>
 
     </div> <!-- /container -->
-
-
     
   </body>
 </html>
