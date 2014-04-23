@@ -19,6 +19,14 @@
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10">
+                            <div class="input-group">
+                              <span class="input-group-addon">To</span>
+                              <input type="text" class="form-control" id="new-post-recipients">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
                           <input type="text" class="form-control" id="new-post-subject" placeholder="Subject">
                         </div>
                     </div>
@@ -39,9 +47,9 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <button type="submit" class="btn btn-default">Post</button>
+                            <button type="submit" class="btn btn-default" id="make-post">Post</button>
                             
-                            <button type="button" class="btn btn-link pull-right" id="make-post" data-dismiss="modal">
+                            <button type="button" class="btn btn-link pull-right" data-dismiss="modal">
                               <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </div>
@@ -65,7 +73,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-3" for="public-board">Name</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" id="new-board-title" placeholder=>
+                          <input type="text" class="form-control" id="new-board-title">
                         </div>
                     </div>
                     
@@ -85,9 +93,9 @@
                     
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-8">
-                            <button type="submit" class="btn btn-default">Create Board</button>
+                            <button type="submit" class="btn btn-default" id="make-board">Create Board</button>
                             
-                            <button type="button" class="btn btn-link pull-right" id="make-board" data-dismiss="modal">
+                            <button type="button" class="btn btn-link pull-right" data-dismiss="modal">
                               <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </div>
@@ -144,8 +152,8 @@
                             <a href="#">Boards</a>
                             <div class="col-md-offset-1">
                                 <ul class="nav" style="display: none;">
-                                    <li id="claflin"><a href="#">Claflin</a></li>
-                                    <li id="class-2014"><a href="#">Class of 2014</a></li>
+                                    <li id="claflin-nav"><a href="#">Claflin</a></li>
+                                    <li id="class-2014-nav"><a href="#">Class of 2014</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -154,62 +162,74 @@
                 </div>
               
               <div class="col-md-5">
-                  <div class="panel panel-default" id="claflin">
+                  <div class="panel panel-default">
                       <!-- Default panel contents -->
                       <div class="panel-heading">Claflin <span class="badge pull-right">10</span></div>
                     
                       <!-- List group -->
-                      <div class="list-group class-2014">
+                      <div class="list-group" id="claflin">
                           <a href="#" class="list-group-item active">
                             <h4 class="list-group-item-heading">List group item heading</h4>
                             <p>Cras justo odio</p>
+                            <h4><small>#lorem #ipsum #dolor</small></h4>
                           </a>
                           <a href="#" class="list-group-item">
                             <h4 class="list-group-item-heading">List group item heading</h4>
                             <p>Dapibus ac facilisis in</p>
+                            <h4><small>#sit #amet #usu</small></h4>
                           </a>
                           <a href="#" class="list-group-item">
                               <h4 class="list-group-item-heading">List group item heading</h4>
                               <p>Morbi leo risus</p>
+                              <h4><small>#omnis</small></h4>
                           </a>
                           <a href="#" class="list-group-item">
                               <h4 class="list-group-item-heading">List group item heading</h4>
                               <p>Porta ac consectetur ac</p>
+                              <h4><small>#ex #amet #case</small></h4>
+                              
                           </a>
                           <a href="#" class="list-group-item">
                               <h4 class="list-group-item-heading">List group item heading</h4>
                               <p>Vestibulum at eros</p>
+                              <h4><small>#salutandi #mel #at #vide #primis</small></h4>
                           </a>
                       </div>
                 </div>
             </div>
               
             <div class="col-md-5">
-                  <div class="panel panel-default" id="class-2014">
+                  <div class="panel panel-default">
                       <!-- Default panel contents -->
                       <div class="panel-heading">Class of 2014 <span class="badge pull-right">2</span></div>
                       
                       <!-- List group -->
-                      <div class="list-group class-2014">
+                      <div class="list-group" id="class-2014">
                           <a href="#" class="list-group-item active">
                             <h4 class="list-group-item-heading">List group item heading</h4>
                             <p>Cras justo odio</p>
+                            <h4><small>#lorem #ipsum #dolor</small></h4>
                           </a>
                           <a href="#" class="list-group-item">
                             <h4 class="list-group-item-heading">List group item heading</h4>
                             <p>Dapibus ac facilisis in</p>
+                            <h4><small>#sit #amet #usu</small></h4>
                           </a>
                           <a href="#" class="list-group-item">
                               <h4 class="list-group-item-heading">List group item heading</h4>
                               <p>Morbi leo risus</p>
+                              <h4><small>#omnis</small></h4>
                           </a>
                           <a href="#" class="list-group-item">
                               <h4 class="list-group-item-heading">List group item heading</h4>
                               <p>Porta ac consectetur ac</p>
+                              <h4><small>#ex #amet #case</small></h4>
+                              
                           </a>
                           <a href="#" class="list-group-item">
                               <h4 class="list-group-item-heading">List group item heading</h4>
                               <p>Vestibulum at eros</p>
+                              <h4><small>#salutandi #mel #at #vide #primis</small></h4>
                           </a>
                       </div>
                 </div>
@@ -267,6 +287,32 @@
                 
                 $("#new-board").on('click', function() {
                    $("#new-board-modal").modal();
+                });
+                
+                $("#make-post").on('click', function() {
+                    console.log('new post');
+                    var recipients = $("#new-post-recipients").val();
+                    var subject = $("#new-post-subject").val();
+                    var message = $("#new-post-message").val();
+                    var tags = $("#new-post-tags").val();
+                    
+                    console.log('<a href="#" class="list-group-item">' +
+                            '<h4 class="list-group-item-heading">' + subject + '</h4>' +
+                            '<p>' + message + '</p>' +
+                            '<h4><small>#' + tags + '</small></h4>' +
+                            '</a>');
+                    
+                    $("#class-2014").prepend('<a href="#" class="list-group-item">' +
+                            '<h4 class="list-group-item-heading">' + subject + '</h4>' +
+                            '<p>' + message + '</p>' +
+                            '<h4><small>#' + tags + '</small></h4>' +
+                            '</a>');
+                    
+                    $("#new-post-modal").modal('hide');
+                });
+                
+                $("#make-board").on('click', function() {
+                    console.log('new board'); 
                 });
                 
             });
