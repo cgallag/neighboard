@@ -4,15 +4,15 @@ INSERT INTO user VALUES (3, "sanderso", "Scott Anderson", "faculty");
 INSERT INTO user VALUES (4, "rpurcell", "Rita Purcell", "staff");
 INSERT INTO user VALUES (5, "kbottomly", "Kim Bottomly", "staff");
 
-INSERT INTO board VALUES (1, "CS Department", 4, "private",  "all");
+INSERT INTO board VALUES (1, "CS Department", 4, "board", "private",  "all");
 INSERT INTO members(boardId, userId) VALUES (1, 1);
 INSERT INTO members VALUES (1, 2);
 INSERT INTO members VALUES (1, 3);
 
-INSERT INTO board VALUES (2, "Community", 5,  "public", null);
-INSERT INTO board VALUES (3, "Petitions", null, "public", null);
+INSERT INTO board VALUES (2, "Community", 5, "board", "public", null);
+INSERT INTO board VALUES (3, "Petitions", null, "petition", "public", null);
 
-INSERT INTO board VALUES (4, "Rita’s Feedback", 4,  "private", "staff");
+INSERT INTO board VALUES (4, "Rita’s Feedback", 4, "feedback", "private", "staff");
 
 
 INSERT INTO form(formId, boardId, created, title, content, creator, type) VALUES (1, 1, "2014-04-04 18:06:00", "Hello", "World! This is a test post.", 1, "post");

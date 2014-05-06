@@ -8,7 +8,7 @@ import boardData
 if __name__ == '__main__':
 	print 'Content-type: text/html\n'
 
-	names = boardData.names()
+	names = boardData.getBoards()
 	tmpl = cgi_utils_sda.file_contents('NeighBoard_Home.html')
 	page = tmpl.format(boardnames=names)
 	print page

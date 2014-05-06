@@ -65,6 +65,7 @@ create table board(
 	boardId int,
 	name varchar(100),
 	owner int,
+	type enum("petition", "board", "feedback"),
 	privacyLevel enum("public", "private"),
 	category enum("student", "faculty", "staff", "all"),
 	primary key (boardId),
