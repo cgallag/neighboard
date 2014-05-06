@@ -22,14 +22,22 @@
     <div class="container">
 
       <form class="form-signin" role="form">
-        <h2 class="form-signin-heading">NeighBoard</h2>
-        <input id="username" type="email" class="form-control" placeholder="User ID" required autofocus>
+        <h2 class="col-md-12 form-signin-heading">New User</h2>
+        <input id="name" type="email" class="form-control" placeholder="Name (First Last)" required autofocus>
+        <input id="username" type="email" class="form-control" placeholder="Email (@wellesley.edu)" required>
         <input id="password" type="password" class="form-control" placeholder="Password" required>
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <input type="button" onClick="parent.location='board.html'" class="btn btn-lg btn-primary btn-block" id="signin" type="submit" value="Sign In">
-        <input type="button" onClick="parent.location='board.html'" class="btn btn-lg btn-primary btn-block" id="newuser" type="submit" value="New User">
+        <label for="category" class="col-md-7 control-label">Pick A User Type:</label> 
+        <select class="form-control" id="category">
+            <option>Student</option>
+            <option>Faculty</option>
+            <option>Staff</option>
+          </select>
+        
+        <input type="button" onClick="parent.location='board.html'" class="btn btn-lg btn-primary btn-block" id="signup" type="submit" value="Sign Up">
+
+          
+
+
       </form>
 
     </div> <!-- /container -->
