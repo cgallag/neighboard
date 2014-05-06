@@ -9,13 +9,13 @@ def getBoards():
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-	curs.execute("select name from board where type='board'");
+	curs.execute("select boardId, name from board where type='board'");
 	names = []
 	while True:
 		row = curs.fetchone()
 		if row == None:
 			return "\n".join(names)
-		names.append("<li id=\"{name}-nav\"><a href=\"#\">{name}</a></li>").format(**row)
+		names.append("<li id=\"{boardId}-nav\"><a href=\"#\">{name}</a></li>".format(**row))
 
 def main():
 	boards = getBoards()
