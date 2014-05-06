@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title>Form Template for NeighBoard</title>
+    <title>NeighBoard Petitions</title>
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +18,36 @@
   </head>
 
 <body>
-<div class="container">
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">NeighBoard</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav pages">
+        <li id="home-nav" class="active"><a href="NeighBoard_Home.html">Home</a></li>
+        <li id="feedback-nav"><a href="NeighBoard_Form.html">Feedback</a></li>
+        <li id="petitions-nav"><a href="NeighBoard_Petition.html">Petitions</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right pages">
+        <p class="navbar-text">
+            <span class="glyphicon glyphicon-user"></span>
+            Caroline Gallagher
+        </p>
+        <li id="settings-nav"><a href="#settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+<div class="container" style="padding: 80px;">
   <div class="row">
     <div class="col-md-offset-1 col-md-10">
   <h2>Create A Petition</h2>
