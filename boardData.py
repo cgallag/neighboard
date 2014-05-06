@@ -26,14 +26,16 @@ def displayBoards():
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 	curs.execute("select boardId, name from board where type='board'");
 	total_boards = curs.rowcount
-	curs.execute("select boardId, name from board where type='board'");
+	#curs.execute("select boardId, name from board where type='board'");
 	boards_printed = 0
 	boards_1 = []
 	boards_2 = []
 
-	panel_html_start = """
+	panel_html_heading = """
 		<div class=\"panel panel-default\">
-			<div class=\"panel-heading\">{name}<span class=\"badge pull-right\">10</span></div>
+			<div class=\"panel-heading\">{name}<span class=\"badge pull-right\">"""
+
+	panel_html_posts = """</span></div>
 			<div class=\"list-group\" id=\"{boardId}-board\">"""
 
 	panel_html_end = """
@@ -47,13 +49,19 @@ def displayBoards():
 			return ["\n".join(boards_1), "\n".join(boards_2)]
 
 		boardId = row['boardId']
-		posts = displayPosts(boardId, conn)
+		[posts, numposts] = displayPosts(boardId, conn)
+
+		board_html = panel_html_heading.format(**row)
+		board_html += str(numposts) 
+		board_html += panel_html_posts
+		board_html += posts
+		board_html += panel_html_end
 
 		if (boards_printed < total_boards/2):
-			boards_1.append(panel_html_start.format(**row) + posts + panel_html_end)
+			boards_1.append(board_html)
 
 		else:
-			boards_2.append(panel_html_start.format(**row) + posts + panel_html_end)
+			boards_2.append(board_html)
 
 		boards_printed += 1
 
@@ -62,6 +70,7 @@ def displayPosts(boardId, conn):
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 	data = (boardId,)
 	curs.execute("select * from form where type='post' and boardId= %s ", data)
+	numposts = curs.rowcount
 
 	isFirst = True
 	posts = []
@@ -80,7 +89,7 @@ def displayPosts(boardId, conn):
 		row = curs.fetchone()
 
 		if row == None:
-				return "\n".join(posts)
+				return ["\n".join(posts), numposts]
 
 		if isFirst:
 			posts.append(start_post_active + post_html.format(**row))
