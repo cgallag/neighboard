@@ -18,22 +18,22 @@ def render_web_page(template_file):
 #reads user input from form
 #updates WMDB by calling functions from Python script
 def main():
-   form=cgi.FieldStorage()
-   if 'username' and 'password' in form: #checks for nm input
+  form=cgi.FieldStorage()
+  if 'username' and 'password' in form: #checks for nm input
       #gets user data
-      user_name=form.getfirst('username')
-      user_password=form.getfirst('password')
-      user_valid=signin.connValidate(user_name,user_password) #saves return value, updates database
-      if user_valid=='user invalid':
+    user_name=form.getfirst('username')
+    user_password=form.getfirst('password')
+    user_valid=signin.connValidate(user_name,user_password) #saves return value, updates database
+    if user_valid=='user invalid':
       #checks if return value of connActor is a string
-      	print render_web_page('NeighBoard_NewUser.html') 
+      print render_web_page('NeighBoard_NewUser.html') 
         #formats html page with appropriate user message
-      else:
+    else:
 	#formats the html page with polite user message indicating that the actor is input successfully
-        print render_web_page('board.html') 
-   else:
+      print render_web_page('board.html') 
+  else:
      #renders blank html form
-      print render_web_page('NeighBoard_LogIn.html')
+    print render_web_page('NeighBoard_LogIn.html')
 
 if __name__=='__main__':
    print 'Content-type: text/html\n'
