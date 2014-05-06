@@ -31,11 +31,12 @@ def displayBoards():
 	boards_1 = []
 	boards_2 = []
 
-	panel_html = """<div class=\"panel panel-default\">
-				<div class=\"panel-heading\">{name}<span class=\"badge pull-right\">10</span></div>
-				<div class=\"list-group\" id=\"{boardId}-board\">
-				</div>
-                </div>"""
+	panel_html = """
+		<div class=\"panel panel-default\">
+			<div class=\"panel-heading\">{name}<span class=\"badge pull-right\">10</span></div>
+			<div class=\"list-group\" id=\"{boardId}-board\">
+			</div>
+        </div>"""
 
 	while True:
 		row = curs.fetchone()
@@ -49,6 +50,42 @@ def displayBoards():
 			boards_2.append(panel_html.format(**row))
 
 		boards_printed += 1
+
+
+def displayPosts(boardId, conn):
+	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+	data = (boardId,)
+	curs.execute("select * from form where type='post' and boardId= %s ", data)
+
+	isFirst = True
+	posts = []
+	
+	post_html_active = """
+		<a href="#" class="list-group-item active">
+			<h4 class="list-group-item-heading">{title}</h4>
+			<p>{content}</p>
+			<h4><small>#tags-will-go-here</small></h4>
+		</a>"""
+
+	post_html = """
+		<a href="#" class="list-group-item">
+			<h4 class="list-group-item-heading">{title}</h4>
+			<p>{content}</p>
+			<h4><small>#tags-will-go-here</small></h4>
+		</a>"""
+
+	while True:
+		row = curs.fetchone()
+
+		if isFirst:
+			posts.append(post_html_active.format(**row))
+			isFirst = false
+
+		else:
+			if row == None:
+				return "\n".join(posts)
+
+			posts.append(post_html.format(**row))
 
 
 def main():
