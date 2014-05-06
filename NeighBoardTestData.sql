@@ -13,6 +13,7 @@ INSERT INTO board VALUES (2, "Community", 5, "board", "public", null);
 INSERT INTO board VALUES (3, "Petitions", null, "petition", "public", null);
 
 INSERT INTO board VALUES (4, "Rita’s Feedback", 4, "feedback", "private", "staff");
+insert into board (name, owner, type, privacyLevel, category) values ('Claflin', 5, 'board', 'private', 'student');
 
 
 INSERT INTO form(formId, boardId, created, title, content, creator, type) VALUES (1, 1, "2014-04-04 18:06:00", "Hello", "World! This is a test post.", 1, "post");

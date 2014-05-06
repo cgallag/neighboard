@@ -18,7 +18,7 @@ create table user(
 
 #includes posts, petitions, and feedback
 create table form( 
-	formId int,
+	formId int auto_increment,
 	boardId int, 
 	created datetime,
 	title varchar(200),
@@ -32,7 +32,7 @@ create table form(
 
 # Tags apply only to posts.
 create table tag(
-	tagId int,
+	tagId int auto_increment,
 	postId int,
 	value varchar(50),
 	primary key (tagId),
@@ -41,7 +41,7 @@ create table tag(
 
 # Signatures apply only to petitions.
 create table signature(
-	sigId int,
+	sigId int auto_increment,
 	petitionId int,
 	signer int,
 	primary key (sigId),
@@ -51,7 +51,7 @@ create table signature(
 
 # Post id can apply to either a post or a petition.
 create table comment(
-	commentId int,
+	commentId int auto_increment,
 	postId int,
 	commenterId int,
 	content varchar(1000),
@@ -62,7 +62,7 @@ create table comment(
 
 # All of the following tables relate to boards.
 create table board(
-	boardId int,
+	boardId int auto_increment,
 	name varchar(100),
 	owner int,
 	type enum("petition", "board", "feedback"),

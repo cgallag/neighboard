@@ -66,6 +66,9 @@ def displayBoards():
 		boards_printed += 1
 
 
+# TODO: enable pagination for long pages of posts.
+# TODO: display timestamps at some point. Still trying to figure out 
+# how to do so.
 def displayPosts(boardId, conn):
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 	data = (boardId,)
