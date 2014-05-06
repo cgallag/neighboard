@@ -1,0 +1,1 @@
+insert into comment values(2,1,1,"First ever comment, sweet!");

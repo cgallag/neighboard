@@ -1,0 +1,1 @@
+select form.content, comment.content from form inner join comment where postId=formId;
