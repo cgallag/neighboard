@@ -31,23 +31,29 @@ def displayBoards():
 	boards_1 = []
 	boards_2 = []
 
-	panel_html = """
+	panel_html_start = """
 		<div class=\"panel panel-default\">
 			<div class=\"panel-heading\">{name}<span class=\"badge pull-right\">10</span></div>
-			<div class=\"list-group\" id=\"{boardId}-board\">
+			<div class=\"list-group\" id=\"{boardId}-board\">"""
+
+	panel_html_end = """
 			</div>
         </div>"""
 
 	while True:
 		row = curs.fetchone()
 
+		if row == None:
+			return ["\n".join(boards_1), "\n".join(boards_2)]
+
+		boardId = row['boardId']
+		posts = displayPosts(boardId, conn)
+
 		if (boards_printed < total_boards/2):
-			boards_1.append(panel_html.format(**row))
+			boards_1.append(panel_html_start.format(**row) + posts + panel_html_end)
 
 		else:
-			if row == None:
-				return ["\n".join(boards_1), "\n".join(boards_2)]
-			boards_2.append(panel_html.format(**row))
+			boards_2.append(panel_html_start.format(**row) + posts + panel_html_end)
 
 		boards_printed += 1
 
@@ -60,15 +66,11 @@ def displayPosts(boardId, conn):
 	isFirst = True
 	posts = []
 	
-	post_html_active = """
-		<a href="#" class="list-group-item active">
-			<h4 class="list-group-item-heading">{title}</h4>
-			<p>{content}</p>
-			<h4><small>#tags-will-go-here</small></h4>
-		</a>"""
+	start_post_active = """<a href="#" class="list-group-item active">"""
+			
+	start_post = """<a href="#" class="list-group-item">"""
 
 	post_html = """
-		<a href="#" class="list-group-item">
 			<h4 class="list-group-item-heading">{title}</h4>
 			<p>{content}</p>
 			<h4><small>#tags-will-go-here</small></h4>
@@ -77,15 +79,15 @@ def displayPosts(boardId, conn):
 	while True:
 		row = curs.fetchone()
 
-		if isFirst:
-			posts.append(post_html_active.format(**row))
-			isFirst = false
-
-		else:
-			if row == None:
+		if row == None:
 				return "\n".join(posts)
 
-			posts.append(post_html.format(**row))
+		if isFirst:
+			posts.append(start_post_active + post_html.format(**row))
+			isFirst = False
+
+		else:
+			posts.append(start_post + post_html.format(**row))
 
 
 def main():
