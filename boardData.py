@@ -15,7 +15,7 @@ def getBoards():
 		row = curs.fetchone()
 		if row == None:
 			return "\n".join(names)
-		names.append("<li id=\"{name}-nav\"><a href=\"#\">{name}</a></li>")
+		names.append("<li id=\"{name}-nav\"><a href=\"#\">{name}</a></li>").format(**row)
 
 def main():
 	boards = getBoards()
