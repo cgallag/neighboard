@@ -102,6 +102,16 @@ def displayPosts(boardId, conn):
 			posts.append(start_post + post_html.format(**row))
 
 
+def addBoard(name, privacy_level, category):
+	DSN['database'] = 'cgallag2_db'
+	conn = dbconn.connect(DSN)
+	
+	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+	curs.execute("insert into board (name, type, privacyLevel, category) values (%s, 'board', %s, %s)", 
+		(name, privacy_level, category))
+
+
+
 def main():
 	names = getBoardNames()
 	[boards_col1, boards_col2] = displayBoards()
