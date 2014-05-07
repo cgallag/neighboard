@@ -27,7 +27,7 @@ def displayBoards():
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-	curs.execute("select boardId, name from board where type='board'");
+	curs.execute("select boardId, name, mailname from board where type='board'");
 	total_boards = curs.rowcount
 	#curs.execute("select boardId, name from board where type='board'");
 	boards_printed = 0
@@ -39,7 +39,7 @@ def displayBoards():
 			<div class=\"panel-heading\">{name}<span class=\"badge pull-right\">"""
 
 	panel_html_posts = """</span></div>
-			<div class=\"list-group\" id=\"{boardId}-board\">"""
+			<div class=\"list-group\" id=\"{mailname}-board\">"""
 
 	panel_html_end = """
 			</div>
@@ -108,9 +108,15 @@ def addBoard(name, privacy_level, category):
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-	curs.execute("insert into board (name, type, privacyLevel, category) values (%s, 'board', %s, %s)", 
-		(name, privacy_level, category))
-	
+
+	mailname = name.strip().lower().replace(" ", "-")
+
+	# TODO: Add search here to check if a board with the same name already exists. 
+	# For now, reject new board if that occurs.
+
+	curs.execute("insert into board (name, mailname, type, privacyLevel, category) values (%s, %s, 'board', %s, %s)", 
+		(name, mailname, privacy_level, category))
+
 
 def addPost(boards, subject, message):
 	DSN['database'] = 'cgallag2_db'
@@ -118,27 +124,36 @@ def addPost(boards, subject, message):
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 	for board in boards:
-		boardname = '%' + board + '%'
-		curs.execute("select boardId from board where name like %s", (boardname,))
+		mailname = board.strip().lower().replace(" ", "-")
+		#print 'Searching for board ' + mailname
+		curs.execute("select boardId from board where mailname=%s", (mailname,))
 		board_row = curs.fetchone()
-		boardId = board_row['boardId']
+		if board_row != None:
+			boardId = board_row['boardId']
 
-		# I can't get the created timestamp from mysql without causing some timestamp issues later on, 
-		# so I have to calculate it myself in python beforehand.
-		current_time = str(datetime.now())
+			# I can't get the created timestamp from mysql without causing some timestamp issues later on, 
+			# so I have to calculate it myself in python beforehand.
+			current_time = str(datetime.now())
 
-		curs.execute("insert into form (boardId, created, title, content, type) values (%s, %s, %s, %s, 'post')", 
-			(boardId, current_time, subject, message))
+			curs.execute("insert into form (boardId, created, title, content, type) values (%s, %s, %s, %s, 'post')", 
+				(boardId, current_time, subject, message))
+		else:
+			pass 
+			# print 'No board named ' + mailname + ' found.'
+			# TODO: Add error handling here if a board is not found. 
+			# Need to give user feedback in general about which boards were sent to and not sent to.
 
 
 def main():
 	names = getBoardNames()
 	[boards_col1, boards_col2] = displayBoards()
+	#addPost(boards=['tower', ' claflin', 'Cs department  '], subject='High tea tonight', message='Come to tower high tea tonight at 8:30pm')
 	return names, boards_col1, boards_col2
 
 if __name__ == "__main__":
 	for each in main():
 		print each
+	#main()
 
 
 

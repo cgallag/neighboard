@@ -64,6 +64,7 @@ create table comment(
 create table board(
 	boardId int auto_increment,
 	name varchar(100),
+	mailname varchar(120),
 	owner int,
 	type enum("petition", "board", "feedback"),
 	privacyLevel enum("public", "private"),
