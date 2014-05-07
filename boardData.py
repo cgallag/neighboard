@@ -1,6 +1,7 @@
 #!/usr/local/bin/python2.7
 
 import math
+from datetime import datetime
 
 import MySQLdb
 from cgallag2_dsn import DSN 
@@ -53,9 +54,7 @@ def displayBoards():
 		boardId = row['boardId']
 		[posts, numposts] = displayPosts(boardId, conn)
 
-		board_html = panel_html_heading.format(**row)
-		board_html += str(numposts) 
-		board_html += panel_html_posts.format(**row)
+		board_html = (panel_html_heading + str(numposts) + panel_html_posts).format(**row)
 		board_html += posts
 		board_html += panel_html_end
 
@@ -111,7 +110,25 @@ def addBoard(name, privacy_level, category):
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 	curs.execute("insert into board (name, type, privacyLevel, category) values (%s, 'board', %s, %s)", 
 		(name, privacy_level, category))
+	
 
+def addPost(boards, subject, message):
+	DSN['database'] = 'cgallag2_db'
+	conn = dbconn.connect(DSN)
+	
+	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+	for board in boards:
+		boardname = '%' + board + '%'
+		curs.execute("select boardId from board where name like %s", (boardname,))
+		board_row = curs.fetchone()
+		boardId = board_row['boardId']
+
+		# I can't get the created timestamp from mysql without causing some timestamp issues later on, 
+		# so I have to calculate it myself in python beforehand.
+		current_time = str(datetime.now())
+
+		curs.execute("insert into form (boardId, created, title, content, type) values (%s, %s, %s, %s, 'post')", 
+			(boardId, current_time, subject, message))
 
 
 def main():

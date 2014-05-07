@@ -20,6 +20,61 @@
 
   <body>
 
+    <!-- New Post Modal -->
+    <div class="modal fade" id="new-post-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">New Post</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" role="form" method="POST" action="NeighBoardPosts.cgi">
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="input-group">
+                          <span class="input-group-addon">To</span>
+                          <input type="text" class="form-control" id="new-post-recipients" name="new-post-recipients">
+                          <span class="help-block">Please separate board names using commas.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                      <input type="text" class="form-control" id="new-post-subject" name="new-post-subject" placeholder="Subject">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <textarea class="form-control" rows="3" id="new-post-message" name="new-post-message" placeholder="Message"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="input-group">
+                          <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-tag"></span>
+                          </span>
+                          <input type="text" class="form-control" id="new-post-tags" name="new-post-tags">
+                          <span class="help-block">Please separate tags using commas.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <button type="submit" class="btn btn-default" id="make-post">Post</button>
+                        
+                        <button type="button" class="btn btn-link pull-right" data-dismiss="modal">
+                          <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
     <!-- New Board Modal -->
     <div class="modal fade" id="new-board-modal">
       <div class="modal-dialog">
@@ -29,11 +84,11 @@
             <h4 class="modal-title">Create New Board</h4>
           </div>
           <div class="modal-body">
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" method="POST" action="NeighBoardPosts.cgi">
                 <div class="form-group">
                     <label class="control-label col-sm-3" for="public-board">Name</label>
                     <div class="col-sm-8">
-                      <input type="text" class="form-control" id="new-board-title">
+                      <input type="text" class="form-control" id="new-board-title" name="new-board-title">
                     </div>
                 </div>
 
@@ -42,16 +97,16 @@
                     <div class="col-sm-6">
                         <div class="btn-group" data-toggle="buttons">
                           <label class="btn btn-default">
-                            <input type="radio" class="category form-control" id="student-category" value="student">Student 
+                            <input type="radio" name="category" class="category" id="all-category" value="all" checked>All 
                           </label>
                           <label class="btn btn-default">
-                            <input type="radio" class="category" id="staff-category" value="staff">Staff 
+                            <input type="radio" name="category" class="category form-control" id="student-category" value="student">Student 
                           </label>
                           <label class="btn btn-default">
-                            <input type="radio" class="category" id="faculty-category" value="faculty">Faculty 
+                            <input type="radio" name="category" class="category" id="staff-category" value="staff">Staff 
                           </label>
                           <label class="btn btn-default">
-                            <input type="radio" class="category" id="all-category" value="all">All 
+                            <input type="radio" name="category" class="category" id="faculty-category" value="faculty">Faculty 
                           </label>
                         </div>
                     </div>
@@ -62,10 +117,10 @@
                     <div class="col-sm-6">
                         <div class="btn-group" data-toggle="buttons">
                           <label class="btn btn-default">
-                            <input type="radio" class="visibility form-control" id="public-board" value="public">Public 
+                            <input type="radio" name="visibility" class="visibility form-control" id="public-board" value="public" checked>Public 
                           </label>
                           <label class="btn btn-default">
-                            <input type="radio" class="visibility" id="private-board" value="private">Private 
+                            <input type="radio" name="visibility" class="visibility" id="private-board" value="private">Private 
                           </label>
                         </div>
                     </div>
@@ -96,7 +151,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">NeighBoard</a>
+          <a class="navbar-brand" href="">NeighBoard</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav pages">
