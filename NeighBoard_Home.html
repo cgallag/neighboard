@@ -12,9 +12,80 @@
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- JQueryUI core CSS -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
   </head>
 
+
   <body>
+
+    <!-- New Board Modal -->
+    <div class="modal fade" id="new-board-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Create New Board</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="public-board">Name</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="new-board-title">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="public-board">Category</label>
+                    <div class="col-sm-6">
+                        <div class="btn-group" data-toggle="buttons">
+                          <label class="btn btn-default">
+                            <input type="radio" class="category form-control" id="student-category" value="student">Student 
+                          </label>
+                          <label class="btn btn-default">
+                            <input type="radio" class="category" id="staff-category" value="staff">Staff 
+                          </label>
+                          <label class="btn btn-default">
+                            <input type="radio" class="category" id="faculty-category" value="faculty">Faculty 
+                          </label>
+                          <label class="btn btn-default">
+                            <input type="radio" class="category" id="all-category" value="all">All 
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="public-board">Board Visibility</label>
+                    <div class="col-sm-6">
+                        <div class="btn-group" data-toggle="buttons">
+                          <label class="btn btn-default">
+                            <input type="radio" class="visibility form-control" id="public-board" value="public">Public 
+                          </label>
+                          <label class="btn btn-default">
+                            <input type="radio" class="visibility" id="private-board" value="private">Private 
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-8">
+                        <button type="submit" class="btn btn-default" id="make-board">Create Board</button>
+                        
+                        <button type="button" class="btn btn-link pull-right" data-dismiss="modal">
+                          <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
     <!-- Fixed navbar at top of page -->
     <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
       <div class="container">
@@ -80,6 +151,15 @@
             {second_col_boards}
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <script src="NeighBoard_Home.js"></script>
 
   </body>
 </html>

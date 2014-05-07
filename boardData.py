@@ -1,5 +1,7 @@
 #!/usr/local/bin/python2.7
 
+import math
+
 import MySQLdb
 from cgallag2_dsn import DSN 
 import dbconn
@@ -53,11 +55,11 @@ def displayBoards():
 
 		board_html = panel_html_heading.format(**row)
 		board_html += str(numposts) 
-		board_html += panel_html_posts
+		board_html += panel_html_posts.format(**row)
 		board_html += posts
 		board_html += panel_html_end
 
-		if (boards_printed < total_boards/2):
+		if (boards_printed < math.ceil(total_boards/2)):
 			boards_1.append(board_html)
 
 		else:
