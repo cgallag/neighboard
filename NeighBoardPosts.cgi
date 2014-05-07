@@ -47,7 +47,12 @@ if __name__ == '__main__':
 		if 'new-post-message' in form_data:
 			post_values['message'] = cgi.escape(form_data.getfirst('new-post-message'))
 
-		boardData.addPost(post_values['recipients'], post_values['subject'], post_values['message'])
+		if 'new-post-tags' in form_data:
+			post_values['tags'] = cgi.escape(form_data.getfirst('new-post-tags')).split(',')
+
+		boardData.addPost(post_values['recipients'], post_values['subject'], 
+			post_values['message'], post_values['tags'])
+
 
 
 	# Stuff to print boards

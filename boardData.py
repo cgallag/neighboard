@@ -29,7 +29,7 @@ def displayBoards():
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 	curs.execute("select boardId, name, mailname from board where type='board'");
 	total_boards = curs.rowcount
-	#curs.execute("select boardId, name from board where type='board'");
+	
 	boards_printed = 0
 	boards_1 = []
 	boards_2 = []
@@ -86,21 +86,42 @@ def displayPosts(boardId, conn):
 	post_html = """
 			<h4 class="list-group-item-heading">{title}</h4>
 			<p>{content}</p>
-			<h4><small>#tags-will-go-here</small></h4>
-		</a>"""
+			<h4><small>"""
+	
+	end_post = "</small></h4> </a>"
+
+	while True:
+		row = curs.fetchone()
+
+
+		if row == None:
+			return ["\n".join(posts), numposts]
+
+		postId = row['formId']
+
+		post_tags = displayTags(postId, conn)
+
+		if isFirst:
+			posts.append(start_post_active + post_html.format(**row) + post_tags + end_post)
+			isFirst = False
+
+		else:
+			posts.append(start_post + post_html.format(**row) + post_tags + end_post)
+
+
+def displayTags(postId, conn):
+	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+	curs.execute("select * from tag where postId=%s", (postId,))
+
+	tags = ""
 
 	while True:
 		row = curs.fetchone()
 
 		if row == None:
-				return ["\n".join(posts), numposts]
+			return tags
 
-		if isFirst:
-			posts.append(start_post_active + post_html.format(**row))
-			isFirst = False
-
-		else:
-			posts.append(start_post + post_html.format(**row))
+		tags += "#" + row['value'] + " "
 
 
 def addBoard(name, privacy_level, category):
@@ -118,7 +139,7 @@ def addBoard(name, privacy_level, category):
 		(name, mailname, privacy_level, category))
 
 
-def addPost(boards, subject, message):
+def addPost(boards, subject, message, tags):
 	DSN['database'] = 'cgallag2_db'
 	conn = dbconn.connect(DSN)
 	
@@ -137,11 +158,28 @@ def addPost(boards, subject, message):
 
 			curs.execute("insert into form (boardId, created, title, content, type) values (%s, %s, %s, %s, 'post')", 
 				(boardId, current_time, subject, message))
+
+			addTags(boardId, current_time, tags, conn)
+
 		else:
 			pass 
 			# print 'No board named ' + mailname + ' found.'
 			# TODO: Add error handling here if a board is not found. 
 			# Need to give user feedback in general about which boards were sent to and not sent to.
+
+
+def addTags(boardId, current_time, tags, conn):
+	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+
+	curs.execute("select formId from form where boardId=%s and created=%s and type='post'", 
+				(boardId, current_time))
+
+	post_row = curs.fetchone()
+	if post_row != None:
+		postId = post_row['formId']
+
+	for tag in tags:
+		curs.execute("insert into tag (postId, value) values (%s, %s)", (postId, tag))
 
 
 def main():
