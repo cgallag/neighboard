@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>NeighBoard Home</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- JQueryUI core CSS -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+  </head>
+
+
+  <body>
+
+    <!-- New Post Modal -->
+    <div class="modal fade" id="new-post-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">New Post</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" role="form" method="POST" action="NeighBoardPosts.cgi">
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="input-group">
+                          <span class="input-group-addon">To</span>
+                          <input type="text" class="form-control" id="new-post-recipients" name="new-post-recipients">
+                        </div>
+                        <span class="help-block">Please separate board names using commas. Board names are not case sensitive.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                      <input type="text" class="form-control" id="new-post-subject" name="new-post-subject" placeholder="Subject">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <textarea class="form-control" rows="3" id="new-post-message" name="new-post-message" placeholder="Message"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="input-group">
+                          <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-tag"></span>
+                          </span>
+                          <input type="text" class="form-control" id="new-post-tags" name="new-post-tags">
+                        </div>
+                        <span class="help-block">Please separate tags using commas.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <button type="submit" class="btn btn-default" id="make-post">Post</button>
+                        
+                        <button type="button" class="btn btn-link pull-right" data-dismiss="modal">
+                          <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- New Board Modal -->
+    <div class="modal fade" id="new-board-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Create New Board</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" role="form" method="POST" action="NeighBoardPosts.cgi">
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="public-board">Name</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="new-board-title" name="new-board-title">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="public-board">Category</label>
+                    <div class="col-sm-6">
+                        <div class="btn-group" data-toggle="buttons">
+                          <label class="btn btn-default">
+                            <input type="radio" name="category" class="category" id="all-category" value="all" checked>All 
+                          </label>
+                          <label class="btn btn-default">
+                            <input type="radio" name="category" class="category form-control" id="student-category" value="student">Student 
+                          </label>
+                          <label class="btn btn-default">
+                            <input type="radio" name="category" class="category" id="staff-category" value="staff">Staff 
+                          </label>
+                          <label class="btn btn-default">
+                            <input type="radio" name="category" class="category" id="faculty-category" value="faculty">Faculty 
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="public-board">Board Visibility</label>
+                    <div class="col-sm-6">
+                        <div class="btn-group" data-toggle="buttons">
+                          <label class="btn btn-default">
+                            <input type="radio" name="visibility" class="visibility form-control" id="public-board" value="public" checked>Public 
+                          </label>
+                          <label class="btn btn-default">
+                            <input type="radio" name="visibility" class="visibility" id="private-board" value="private">Private 
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-8">
+                        <button type="submit" class="btn btn-default" id="make-board">Create Board</button>
+                        
+                        <button type="button" class="btn btn-link pull-right" data-dismiss="modal">
+                          <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Fixed navbar at top of page -->
+    <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="">NeighBoard</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav pages">
+            <li id="home-nav" class="active"><a href="NeighBoardPosts.cgi">Home</a></li>
+            <li id="feedback-nav"><a href="NeighBoard_Form.html">Feedback</a></li>
+            <li id="petitions-nav"><a href="NeighBoard_Petition.html">Petitions</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right pages">
+            <p class="navbar-text">
+                <span class="glyphicon glyphicon-user"></span>
+                Caroline Gallagher
+            </p>
+            <li id="settings-nav"><a href="#settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container-fluid" id="pages-content" style="padding: 80px;">
+      <p>{feedback}</p>
+      <!-- Side navigator -->
+      <div class="row">
+        <div class="col-md-2">
+          <div id="my-affix">
+            <div class="bs-docs-sidebar hidden-print" role="complementary">
+              <ul class="nav bs-docs-sidenav" id="board-manager">
+                  <li id="new-post" class="active">
+                    <a href="#">New post</a>
+                  </li>
+                  <li id="new-board">
+                    <a href="#">New board</a>
+                  </li>
+                  <li id="board-list">
+                    <a href="#">Boards</a>
+                      <div class="col-md-offset-1">
+                        <ul class="nav"> <!-- style="display: none;"> -->
+                          {boardnames}
+                        </ul>
+                      </div>
+                  </li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- col-md-2 -->
+
+        <!-- Boards -->
+        <div class="col-md-10 pull-right">          
+          <div class="col-md-6" id="first-col">
+            {first_col_boards}
+          </div>
+
+          <div class="col-md-6" id="second-col">
+            {second_col_boards}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <script src="NeighBoard_Home.js"></script>
+
+  </body>
+</html>

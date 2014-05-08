@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>NeighBoard Petitions</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="petition.css" rel="stylesheet">
+  </head>
+
+<body>
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">NeighBoard</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav pages">
+        <li id="home-nav"><a href="NeighBoardPosts.cgi">Home</a></li>
+        <li id="feedback-nav"><a href="NeighBoard_Form.html">Feedback</a></li>
+        <li id="petitions-nav" class="active"><a href="NeighBoard_Petition.html">Petitions</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right pages">
+        <p class="navbar-text">
+            <span class="glyphicon glyphicon-user"></span>
+            Caroline Gallagher
+        </p>
+        <li id="settings-nav"><a href="#settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+<div class="container" style="padding: 80px;">
+  <div class="row">
+    <div class="col-md-offset-1 col-md-10">
+  <h2>Create A Petition</h2>
+  </div>
+</div>
+
+  <form class="form-horizontal" role="form">
+    <div class="form-group">
+      <label for="username1" class="col-md-2 control-label">Username</label>
+      <div class="col-md-10">
+        <input type="email" class="form-control" id="username1" placeholder="Username">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email1" class="col-md-2 control-label">Email</label>
+      <div class="col-md-10">
+        <input type="email" class="form-control" id="email1" placeholder="Email">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="title1" class="col-md-2 control-label">Title</label>
+      <div class="col-md-10">
+        <input type="email" class="form-control" id="title1" placeholder="Title">
+      </div>
+    </div>
+
+    <div class "form-group">  
+      <label for="description1" class="col-md-2 control-label">Description</label>    
+      <div class="col-md-10">
+        <textarea class="form-control" id="description1" placeholder="Description" required autofocus></textarea>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> send me a copy of my results
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-success btn-lg">Submit</button>
+      </div>
+    </div>
+  </form>
+ 
+</form>
+</div>
+
+
+</body>
+</html>
