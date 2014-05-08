@@ -9,6 +9,8 @@ import boardData
 if __name__ == '__main__':
 	print 'Content-type: text/html\n'
 
+	feedback = ""
+
 	# Process data from new board and new post forms
 	form_data = cgi.FieldStorage()
 
@@ -35,7 +37,7 @@ if __name__ == '__main__':
 		if 'visibility' in form_data:
 			board_values['visibility'] = cgi.escape(form_data.getfirst('visibility'))
 
-		boardData.addBoard(board_values['title'], board_values['visibility'], board_values['category'])
+		feedback = boardData.addBoard(board_values['title'], board_values['visibility'], board_values['category'])
 
 	# Processing new post
 	if 'new-post-recipients' in form_data:
@@ -50,7 +52,7 @@ if __name__ == '__main__':
 		if 'new-post-tags' in form_data:
 			post_values['tags'] = cgi.escape(form_data.getfirst('new-post-tags')).split(',')
 
-		boardData.addPost(post_values['recipients'], post_values['subject'], 
+		feedback = boardData.addPost(post_values['recipients'], post_values['subject'], 
 			post_values['message'], post_values['tags'])
 
 
@@ -59,5 +61,5 @@ if __name__ == '__main__':
 	names = boardData.getBoardNames()
 	[boards_col1, boards_col2] = boardData.displayBoards()
 	tmpl = cgi_utils_sda.file_contents('NeighBoard_Home.html')
-	page = tmpl.format(boardnames=names, first_col_boards = boards_col1, second_col_boards = boards_col2)
+	page = tmpl.format(feedback=feedback, boardnames=names, first_col_boards = boards_col1, second_col_boards = boards_col2)
 	print page

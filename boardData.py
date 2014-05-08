@@ -121,7 +121,7 @@ def displayTags(postId, conn):
 		if row == None:
 			return tags
 
-		tags += "#" + row['value'] + " "
+		tags += "#" + row['value'].lower().strip() + " "
 
 
 def addBoard(name, privacy_level, category):
@@ -132,11 +132,16 @@ def addBoard(name, privacy_level, category):
 
 	mailname = name.strip().lower().replace(" ", "-")
 
-	# TODO: Add search here to check if a board with the same name already exists. 
-	# For now, reject new board if that occurs.
+	curs.execute("select * from board where mailname=%s", (mailname,))
+	row = curs.fetchone()
 
-	curs.execute("insert into board (name, mailname, type, privacyLevel, category) values (%s, %s, 'board', %s, %s)", 
-		(name, mailname, privacy_level, category))
+	if row == None:
+		curs.execute("insert into board (name, mailname, type, privacyLevel, category) values (%s, %s, 'board', %s, %s)", 
+			(name, mailname, privacy_level, category))
+		return "Board " + name + " created successfully."
+
+	else:
+		return "Board " + name + " already exists."
 
 
 def addPost(boards, subject, message, tags):
@@ -144,6 +149,11 @@ def addPost(boards, subject, message, tags):
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+
+	# For feedback.
+	sent = ""
+	failed_to_send = ""
+
 	for board in boards:
 		mailname = board.strip().lower().replace(" ", "-")
 		#print 'Searching for board ' + mailname
@@ -161,11 +171,17 @@ def addPost(boards, subject, message, tags):
 
 			addTags(boardId, current_time, tags, conn)
 
+			sent += board + ","
+
 		else:
-			pass 
-			# print 'No board named ' + mailname + ' found.'
-			# TODO: Add error handling here if a board is not found. 
-			# Need to give user feedback in general about which boards were sent to and not sent to.
+			failed_to_send += board + ","
+
+	if failed_to_send != "":
+		unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
+	else:
+		unsent = ""
+
+	return "Post sent to " + sent.rstrip(",") + "<br>" + unsent
 
 
 def addTags(boardId, current_time, tags, conn):
@@ -179,7 +195,9 @@ def addTags(boardId, current_time, tags, conn):
 		postId = post_row['formId']
 
 	for tag in tags:
-		curs.execute("insert into tag (postId, value) values (%s, %s)", (postId, tag))
+		standardized_tag = tag.lower().strip()
+		curs.execute("insert into tag (postId, value) values (%s, %s)", 
+			(postId, standardized_tag))
 
 
 def main():
