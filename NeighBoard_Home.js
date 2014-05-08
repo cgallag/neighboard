@@ -10,3 +10,8 @@ $(".list-group").on('click', 'a', function() {
     $('a.active').removeClass('active');
     $(this).addClass('active');
 });
+
+$(".pages").on('click', 'li', function() {
+	$('li.active').removeClass('active');
+	$(this).addClass('active');
+});
