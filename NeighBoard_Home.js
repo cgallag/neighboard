@@ -11,7 +11,3 @@ $(".list-group").on('click', 'a', function() {
     $(this).addClass('active');
 });
 
-$(".pages").on('click', 'li', function() {
-	$('li.active').removeClass('active');
-	$(this).addClass('active');
-});
