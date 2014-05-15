@@ -5,6 +5,7 @@ drop table if exists signature;
 drop table if exists comment;
 drop table if exists board;
 drop table if exists members;
+drop table if exists picfile;
 
 #houses all user types
 create table user(
@@ -78,4 +79,10 @@ create table members(
 	userId int,
 	foreign key (userId) references user,
 	foreign key (boardId) references board
+);
+
+create table picfile(
+  postId int,
+  picUrl varchar(256),
+  foreign key (postId) references form
 );
