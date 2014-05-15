@@ -4,12 +4,11 @@ import math
 from datetime import datetime
 
 import MySQLdb
-from cgallag2_dsn import DSN 
+from neighbrd_dsn import DSN
 import dbconn
 
 
 def getBoardNames():
-	DSN['database'] = 'cgallag2_db'
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -23,7 +22,6 @@ def getBoardNames():
 
 
 def displayBoards():
-	DSN['database'] = 'cgallag2_db'
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -125,7 +123,6 @@ def displayTags(postId, conn):
 
 
 def addBoard(name, privacy_level, category):
-	DSN['database'] = 'cgallag2_db'
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -145,7 +142,6 @@ def addBoard(name, privacy_level, category):
 
 
 def addPost(boards, subject, message, tags):
-	DSN['database'] = 'cgallag2_db'
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
