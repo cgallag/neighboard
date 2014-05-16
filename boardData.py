@@ -86,7 +86,8 @@ def process_file_upload(postId, client_filename, local_file, cursor):
     try:
         postId = check_integer(postId, None)
     except:
-        print 'postId has type ', type(postId)
+        return 'postId has type ', type(postId)
+    
     if postId is None:
         return 'postId has illegal value: %s' % postId
 
