@@ -86,3 +86,8 @@ create table picfile(
   picUrl varchar(256),
   foreign key (postId) references form
 );
+
+create table usersessions(
+  sessionkey varchar(256),
+  username char(8)
+);
