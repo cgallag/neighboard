@@ -31,4 +31,4 @@ INSERT INTO tag(tagId, postId, value) VALUES (1, 1, "testing");
 
 INSERT INTO form(formId, boardId, created, title, content, creator, type) VALUES (3, 4, "2014-04-03 12:00:43", "Hi Rita!", "Thank you for all your hard work!", 1, "feedback");
 
-INSERT INTO picfile VALUES (1, '~neighbrd/images/chocolate-frog.jpg');
+INSERT INTO picfile VALUES (1, '/~neighbrd/images/chocolate-frog.jpg');
