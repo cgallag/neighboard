@@ -268,7 +268,7 @@ def addBoard(name, privacy_level, category, owner_id):
     curs.execute("select * from board where mailname=%s", (mailname,))
     row = curs.fetchone()
 
-    if row == None:
+    if row is None:
         curs.execute(
             "insert into board (name, mailname, owner, type, privacyLevel, category) values (%s, %s, %s, 'board', %s, %s)",
             (name, mailname, owner_id, privacy_level, category))
@@ -293,7 +293,7 @@ def addPost(boards, subject, message, tags, image, owner_id):
         curs.execute("select boardId from board where mailname=%s",
                      (mailname,))
         board_row = curs.fetchone()
-        if board_row != None:
+        if board_row is not None:
             boardId = board_row['boardId']
 
             # I can't get the created timestamp from mysql without causing some timestamp issues later on,
@@ -301,7 +301,7 @@ def addPost(boards, subject, message, tags, image, owner_id):
             current_time = str(datetime.now())
 
             curs.execute(
-                "insert into form values (%s, %s, %s, %s, %s, 'post')",
+                "insert into form (boardId, created, title, content, creator, type) values (%s, %s, %s, %s, %s, 'post')",
                 (boardId, current_time, subject, message, owner_id))
 
             addTags(boardId, current_time, tags, conn)
