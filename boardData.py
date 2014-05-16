@@ -111,6 +111,8 @@ def display_image(conn, postId):
         picUrl = post_row['picUrl']
         return "<img alt={postId}-img src={picUrl}>".format(postId=postId,
                                                            picUrl=picUrl)
+    else:
+        return ""
 
 
 def getBoardNames():
