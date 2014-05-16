@@ -114,8 +114,7 @@ def get_user(session_id):
         'name': ""
     }
 
-    curs.execute("select * from usersessions where sessionkey = ?",
-                 (session_id,))
+    curs.execute("select * from usersessions where sessionkey = ?", (session_id,))
 
     row = curs.fetchone()
     username = row['username']
