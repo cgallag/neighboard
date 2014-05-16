@@ -86,7 +86,7 @@ def process_file_upload(postId, client_filename, local_file, cursor):
     try:
         postId = check_integer(postId, None)
     except:
-        return 'postId has type ', type(postId)
+        return 'postId has type %s' % type(postId)
 
     if postId is None:
         return 'postId has illegal value: %s' % postId
@@ -125,7 +125,7 @@ def getBoardNames():
     conn = dbconn.connect(DSN)
 
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    curs.execute("select boardId, name from board where type='board'");
+    curs.execute("select boardId, name from board where type='board'")
     names = []
     while True:
         row = curs.fetchone()
