@@ -26,7 +26,8 @@ if __name__ == '__main__':
 		'recipients': [],
 		'subject': '',
 		'message': '',
-		'tags': []
+		'tags': [],
+        'image': ''
 	}
 
 	# Processing new board
@@ -54,7 +55,7 @@ if __name__ == '__main__':
 		if 'new-post-tags' in form_data:
 			post_values['tags'] = cgi.escape(form_data.getfirst('new-post-tags')).split(',')
 
-		if 'new-post-images' in form_data:
+		if 'new-post-image' in form_data:
 		    post_values['image'] = cgi.escape(form_data.getfirst('new-post-image'))
 
 		feedback = boardData.addPost(post_values['recipients'], post_values['subject'], 
