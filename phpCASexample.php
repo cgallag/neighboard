@@ -80,7 +80,7 @@ setcookie('username',$session);
 
 //$resultset = query($dbh,$sql, $value);
  //set user in session or cookie variable
-header( 'Location: http://cs.wellesley.edu/~cgallag2/cgi-bin/NeighBoardPosts.cgi' ) ;
+header('Location: http://cs.wellesley.edu/~neighbrd/cgi-bin/neighboard/NeighBoardPosts.cgi' ) ;
 //session key in table with user name, redirect and pass in session key (randomly generated)
 //generate session key and insert in php, access from python to redirect, URL includes session key, no username.
 // for this test, simply print that the authentication was successful

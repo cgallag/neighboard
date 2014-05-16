@@ -86,7 +86,7 @@ if __name__ == '__main__':
         session_cookie = cgi_utils_sda.getCookieFromRequest('PHPSESSID')
         sessionId = session_cookie.value
     except:
-        pass
+        sessionId = "null"
     page = tmpl.format(feedback=feedback + " cookie value is " + sessionId,
                        boardnames=names,
                        first_col_boards=boards_col1,
