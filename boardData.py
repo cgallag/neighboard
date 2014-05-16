@@ -4,7 +4,6 @@ import math
 from datetime import datetime
 import re
 import os
-import pdb
 
 
 import MySQLdb
@@ -22,19 +21,6 @@ def filesize(absfilename):
     '''Returns the length of a file in bytes'''
     stat = os.stat(absfilename)
     return stat.st_size
-
-
-def check_integer(string, default):
-    '''Converts string to an integer if it's all digits, otherwise
-returns default'''
-    pdb.set_trace()
-    if re.search('^\\d+$', string):
-        try:
-            return int(string)
-        except:
-            return default
-    else:
-        return default
 
 
 def store_data_in_filesystem_paranoid(postId, client_filename, file_data,
@@ -83,9 +69,6 @@ def process_file_upload(postId, client_filename, local_file, cursor):
     ## Double check whether the file upload is too big
     if len(file_data) > MAX_FILE_SIZE:
         return 'Uploaded file is too big: ' + str(len(file_data))
-
-    ## Get the postId, which we will either use as a DB key or a filename
-    postId = check_integer(postId, None)
 
     if postId is None:
         return 'postId has illegal value: %s' % postId
