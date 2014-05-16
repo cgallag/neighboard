@@ -205,18 +205,16 @@ def displayPosts(boardId, conn):
     curs.execute("select * from form where type='post' and boardId= %s ", data)
     numposts = curs.rowcount
 
-    isFirst = True
     posts = []
-
-    start_post_active = """<a href="#" class="list-group-item active">"""
 
     start_post = """<a href="#" class="list-group-item">"""
 
-    post_html = """
+    post_html_1 = """
             <h4 class="list-group-item-heading">{title}
             <small class="pull-right">{created}</small>
-            <br>
-            <small>{creator}</small>
+            <br>"""
+
+    post_html_2 = """
             </h4>
             <p>{content}</p>
             <h4><small>"""
@@ -230,20 +228,31 @@ def displayPosts(boardId, conn):
             return ["\n".join(posts), numposts]
 
         postId = row['formId']
+        creator = row['creator']
 
         post_tags = displayTags(postId, conn)
 
         image = display_image(conn, postId)
 
-        # if isFirst:
-        #     posts.append(start_post_active + post_html.format(
-        #         **row) + post_tags + end_post)
-        #     isFirst = False
-        #
-        # else:
+        created_by = display_name(conn, creator)
+
         posts.append(
-            start_post + post_html.format(**row) + image + "<br>"
+            start_post + post_html_1.format(**row) + created_by +
+            post_html_2.format(**row) + image + "<br>"
             + post_tags + end_post)
+
+
+def display_name(conn, creator):
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    curs.execute("select * from user where userId=%s", (creator,))
+    row = curs.fetchone()
+
+    name = row["name"]
+
+    if row is None:
+        return ""
+    else:
+        return "<small>By " + name + "</small>"
 
 
 def displayTags(postId, conn):
