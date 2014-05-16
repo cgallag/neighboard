@@ -11,12 +11,3 @@ $(".list-group").on('click', 'a', function() {
     $(this).addClass('active');
 });
 
-$("#make-post").on('click', function() {
-    console.log('new post button pressed');
-    console.log($("#board-names").children());
-});
-
-$("#make-board").on('click', function() {
-    console.log('new board button pressed');
-});
-

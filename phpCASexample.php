@@ -62,18 +62,24 @@ if (isset($_REQUEST['logout'])) {
     die();
 }
 $user = phpCAS::getUser();
-//$strUser = string($user);
 $strUser = strval($user);
 print $strUser;
 
 $session = strval(session_id());
-//$session = "jfkdkwoapnjjkdsfjklasdf";
 print $session;
+
+$sessionsql = "select * from usersessions where username = ?";
+$resultset = prepared_query($dbh, $sessionsql, array($strUser));
+
+if ($row = $resultset -> fetchRow(MDB2_FETCHMODE_ASSOC)) {
+    $sql = "update usersessions set sessionkey = ? where username = ?";
+} else {
+    $sql = "insert into usersessions values (?, ?)";
+}
 
 $value = array($session, $strUser);
 //$strSession = string($session);
 //$strSession = strval($session)
-$sql = "insert into usersessions values (?, ?)";
 
 prepared_statement($dbh, $sql, $value);
 setcookie('username',$session);

@@ -29,8 +29,7 @@
             <h4 class="modal-title">New Post</h4>
           </div>
           <div class="modal-body">
-            <!-- method="POST" action="NeighBoardPosts.cgi" -->
-            <form class="form-horizontal" role="form" enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" method="POST" action="NeighBoardPosts.cgi" enctype="multipart/form-data">
                 <div class="form-group">
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="input-group">
@@ -93,8 +92,7 @@
             <h4 class="modal-title">Create New Board</h4>
           </div>
           <div class="modal-body">
-            <!-- method="POST" action="NeighBoardPosts.cgi" -->
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" method="POST" action="NeighBoardPosts.cgi">
                 <div class="form-group">
                     <label class="control-label col-sm-3" for="public-board">Name</label>
                     <div class="col-sm-8">
@@ -197,7 +195,7 @@
                   <li id="board-list">
                     <a href="#">Boards</a>
                       <div class="col-md-offset-1">
-                        <ul class="nav" id="board-names"> <!-- style="display: none;"> -->
+                        <ul class="nav"> <!-- style="display: none;"> -->
                           {boardnames}
                         </ul>
                       </div>

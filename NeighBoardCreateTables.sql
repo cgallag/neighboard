@@ -89,5 +89,6 @@ create table picfile(
 
 create table usersessions(
   sessionkey varchar(256),
-  username char(8)
+  username char(8),
+  unique(username)
 );
