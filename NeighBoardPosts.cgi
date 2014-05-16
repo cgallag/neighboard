@@ -3,6 +3,8 @@
 import sys
 import cgi
 import cgitb; cgitb.enable()
+import os
+import Cookie
 
 import cgi_utils_sda
 import boardData
@@ -79,7 +81,14 @@ if __name__ == '__main__':
     names = boardData.getBoardNames()
     [boards_col1, boards_col2] = boardData.displayBoards()
     tmpl = cgi_utils_sda.file_contents('NeighBoard_Home.html')
-    page = tmpl.format(feedback=feedback, boardnames=names,
+    extra_feedback = ''
+    try:
+        session_cookie = cgi_utils_sda.getCookieFromRequest('PHPSESSID')
+        sessionId = session_cookie.value
+    except:
+        pass
+    page = tmpl.format(feedback=feedback + " cookie value is " + sessionId,
+                       boardnames=names,
                        first_col_boards=boards_col1,
                        second_col_boards=boards_col2)
     print page

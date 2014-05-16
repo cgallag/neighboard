@@ -11,7 +11,7 @@ from neighbrd_dsn import DSN
 import dbconn
 
 
-DEST_DIR = '/home/neighbrd/public_html/images/'
+DEST_DIR = '/students/neighbrd/public_html/images/'
 DEST_URL = '/~neighbrd/images/'
 MAX_FILE_SIZE = 100000          # 100 KB
 # ======================================================================
