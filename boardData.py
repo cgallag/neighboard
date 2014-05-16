@@ -109,24 +109,28 @@ def get_user(session_id):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
     user_dict = {
-        'username': "",
-        'user_id': "",
-        'name': ""
+        'username': "null",
+        'user_id': "null",
+        'name': "null"
     }
 
-    print session_id
-    curs.execute("select * from usersessions where sessionkey=%s",
-                 (session_id,))
+    try:
+        curs.execute("select * from usersessions where sessionkey=%s",
+                     (session_id,))
 
-    row = curs.fetchone()
-    username = row['username']
-    user_dict['username'] = username
+        row = curs.fetchone()
+        username = row['username']
+        user_dict['username'] = username
 
-    curs.execute("select * from user where username=%s", (username,))
+        curs.execute("select * from user where username=%s", (username,))
 
-    user_row = curs.fetchone()
-    user_dict['user_id'] = user_row['userId']
-    user_dict['name'] = user_row['name']
+        user_row = curs.fetchone()
+        user_dict['user_id'] = user_row['userId']
+        user_dict['name'] = user_row['name']
+
+    except:
+        pass
+
     return user_dict
 
 
@@ -254,7 +258,7 @@ def displayTags(postId, conn):
             tags += "#" + row['value'].lower().strip() + " "
 
 
-def addBoard(name, privacy_level, category):
+def addBoard(name, privacy_level, category, owner_id):
     conn = dbconn.connect(DSN)
 
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -266,15 +270,15 @@ def addBoard(name, privacy_level, category):
 
     if row == None:
         curs.execute(
-            "insert into board (name, mailname, type, privacyLevel, category) values (%s, %s, 'board', %s, %s)",
-            (name, mailname, privacy_level, category))
+            "insert into board (name, mailname, owner, type, privacyLevel, category) values (%s, %s, %s, 'board', %s, %s)",
+            (name, mailname, owner_id, privacy_level, category))
         return "Board " + name + " created successfully."
 
     else:
         return "Board " + name + " already exists."
 
 
-def addPost(boards, subject, message, tags, image):
+def addPost(boards, subject, message, tags, image, owner_id):
     conn = dbconn.connect(DSN)
 
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -297,8 +301,8 @@ def addPost(boards, subject, message, tags, image):
             current_time = str(datetime.now())
 
             curs.execute(
-                "insert into form (boardId, created, title, content, type) values (%s, %s, %s, %s, 'post')",
-                (boardId, current_time, subject, message))
+                "insert into form values (%s, %s, %s, %s, %s, 'post')",
+                (boardId, current_time, subject, message, owner_id))
 
             addTags(boardId, current_time, tags, conn)
 

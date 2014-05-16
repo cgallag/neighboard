@@ -18,11 +18,8 @@ if __name__ == '__main__':
     except:
         session_id = "null"
 
-    try:
-        user_dict = boardData.get_user(session_id)
-        name = user_dict['name']
-    except:
-        name = "null"
+    user_dict = boardData.get_user(session_id)
+    name = user_dict['name']
 
     # Process data from new board and new post forms
     form_data = cgi.FieldStorage()
@@ -55,7 +52,8 @@ if __name__ == '__main__':
 
         feedback = boardData.addBoard(board_values['title'],
                                       board_values['visibility'],
-                                      board_values['category'])
+                                      board_values['category'],
+                                      user_dict['user_id'])
 
     # Processing new post
     if 'new-post-recipients' in form_data:
@@ -83,7 +81,8 @@ if __name__ == '__main__':
                                      post_values['subject'],
                                      post_values['message'],
                                      post_values['tags'],
-                                     image)
+                                     image,
+                                     user_dict['user_id'])
 
 
     # Stuff to print boards
