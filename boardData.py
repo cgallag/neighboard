@@ -307,11 +307,9 @@ def addPost(boards, subject, message, tags, image, owner_id):
             addTags(boardId, current_time, tags, conn)
 
             if image is not None:
-                img_result = add_image(conn, boardId, current_time, image.filename, image.file)
-            else:
-                img_result = "none"
+                add_image(conn, boardId, current_time, image.filename, image.file)
 
-            sent += board + " with image " + img_result + ","
+            sent += board + ","
 
         else:
             failed_to_send += board + ","
