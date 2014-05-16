@@ -1,10 +1,7 @@
 #!/usr/local/bin/python2.7
 
-import sys
 import cgi
 import cgitb; cgitb.enable()
-import os
-import Cookie
 
 import cgi_utils_sda
 import boardData
@@ -23,7 +20,6 @@ if __name__ == '__main__':
 
     try:
         user_dict = boardData.get_user(session_id)
-        feedback += user_dict
         name = user_dict['name']
     except:
         name = "null"

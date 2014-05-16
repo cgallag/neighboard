@@ -2,7 +2,7 @@
 
 import math
 from datetime import datetime
-import re
+import sys
 import os
 
 
@@ -336,17 +336,13 @@ def addTags(boardId, current_time, tags, conn):
                      (postId, standardized_tag))
 
 
-def main():
-    names = getBoardNames()
-    [boards_col1, boards_col2] = displayBoards()
-    #addPost(boards=['tower', ' claflin', 'Cs department  '], subject='High tea tonight', message='Come to tower high tea tonight at 8:30pm')
-    return names, boards_col1, boards_col2
+def main(session_key):
+    return get_user(session_key)
 
 
 if __name__ == "__main__":
-    for each in main():
-        print each
-        #main()
+    session_key = sys.argv[1]
+    print main(session_key)
 
 
 
