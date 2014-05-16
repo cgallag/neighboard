@@ -115,13 +115,14 @@ def get_user(session_id):
     }
 
     print session_id
-    curs.execute("select * from usersessions where sessionkey = ?", (session_id,))
+    curs.execute("select * from usersessions where sessionkey=%s",
+                 (session_id,))
 
     row = curs.fetchone()
     username = row['username']
     user_dict['username'] = username
 
-    curs.execute("select * from user where username = ?", (username,))
+    curs.execute("select * from user where username=%s", (username,))
 
     user_row = curs.fetchone()
     user_dict['user_id'] = user_row['userId']
