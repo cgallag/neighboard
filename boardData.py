@@ -213,7 +213,11 @@ def displayPosts(boardId, conn):
     start_post = """<a href="#" class="list-group-item">"""
 
     post_html = """
-            <h4 class="list-group-item-heading">{title}</h4>
+            <h4 class="list-group-item-heading">{title}
+            <small class="pull-right">{created}</small>
+            <br>
+            <small>{creator}</small>
+            </h4>
             <p>{content}</p>
             <h4><small>"""
 
