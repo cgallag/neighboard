@@ -107,8 +107,8 @@ def display_image(conn, postId):
     curs.execute("select * from picfile where postId=%s", (postId,))
 
     post_row = curs.fetchone()
-    picUrl = post_row['picUrl']
     if post_row is not None:
+        picUrl = post_row['picUrl']
         return "<img alt={postId}-img src={picUrl}>".format(postId=postId,
                                                            picUrl=picUrl)
 
