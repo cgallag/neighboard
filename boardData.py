@@ -212,15 +212,15 @@ def displayPosts(boardId, conn):
 
         image = display_image(conn, postId)
 
-        if isFirst:
-            posts.append(start_post_active + post_html.format(
-                **row) + post_tags + end_post)
-            isFirst = False
-
-        else:
-            posts.append(
-                start_post + post_html.format(**row) + image + "<br>"
-                + post_tags + end_post)
+        # if isFirst:
+        #     posts.append(start_post_active + post_html.format(
+        #         **row) + post_tags + end_post)
+        #     isFirst = False
+        #
+        # else:
+        posts.append(
+            start_post + post_html.format(**row) + image + "<br>"
+            + post_tags + end_post)
 
 
 def displayTags(postId, conn):
