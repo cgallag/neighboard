@@ -15,6 +15,15 @@ if __name__ == '__main__':
 
     feedback = ""
 
+    try:
+        session_cookie = cgi_utils_sda.getCookieFromRequest('PHPSESSID')
+        session_id = session_cookie.value
+        user_dict = boardData.get_user(session_id)
+        name = user_dict['name']
+    except:
+        session_id = "null"
+        name = "null"
+
     # Process data from new board and new post forms
     form_data = cgi.FieldStorage()
 
@@ -78,17 +87,13 @@ if __name__ == '__main__':
 
 
     # Stuff to print boards
-    names = boardData.getBoardNames()
+    boardnames = boardData.getBoardNames()
     [boards_col1, boards_col2] = boardData.displayBoards()
     tmpl = cgi_utils_sda.file_contents('NeighBoard_Home.html')
-    extra_feedback = ''
-    try:
-        session_cookie = cgi_utils_sda.getCookieFromRequest('PHPSESSID')
-        session_id = session_cookie.value
-    except:
-        session_id = "null"
+
     page = tmpl.format(feedback=feedback + " cookie value is " + session_id,
-                       boardnames=names,
+                       name=name,
+                       boardnames=boardnames,
                        first_col_boards=boards_col1,
                        second_col_boards=boards_col2)
     print page

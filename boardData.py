@@ -108,7 +108,25 @@ def get_user(session_id):
     conn = dbconn.connect(DSN)
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
-    curs.execute("")
+    user_dict = {
+        'username': "",
+        'user_id': "",
+        'name': ""
+    }
+
+    curs.execute("select * from usersessions where sessionkey = ?",
+                 (session_id,))
+
+    row = curs.fetchone()
+    username = row['username']
+    user_dict['username'] = username
+
+    curs.execute("select * from user where username = ?", (username,))
+
+    user_row = curs.fetchone()
+    user_dict['user_id'] = user_row['userId']
+    user_dict['name'] = user_row['name']
+    return user_dict
 
 
 def getBoardNames():
