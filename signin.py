@@ -1,14 +1,20 @@
 #!/usr/local/bin.python2.7
 
-'''
-Written Spring 2014
-Sydney Cusack & Caroline Gallagher
-Description Here
-'''
+
+# Written Spring 2014
+# Sydney Cusack & Caroline Gallagher
+# Description Here
+
 import MySQLdb
 from scusack_dsn import DSN
 import dbconn
+import pycas
 
+#=============
+#CAS functionality
+CAS_SERVER  = "https://my.wellesley.edu/cp/home/displaylogin"
+SERVICE_URL = "http://cs.wellesley.edu/~scusack/cgi-bin/signin.cgi"
+status, id, cookie = pycas.login(CAS_SERVER, SERVICE_URL)
 #===================================
 #functions
 
