@@ -18,10 +18,13 @@ if __name__ == '__main__':
     try:
         session_cookie = cgi_utils_sda.getCookieFromRequest('PHPSESSID')
         session_id = session_cookie.value
+    except:
+        session_id = "null"
+
+    try:
         user_dict = boardData.get_user(session_id)
         name = user_dict['name']
     except:
-        session_id = "null"
         name = "null"
 
     # Process data from new board and new post forms
