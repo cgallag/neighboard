@@ -87,7 +87,7 @@ def process_file_upload(postId, client_filename, local_file, cursor):
         postId = check_integer(postId, None)
     except:
         return 'postId has type ', type(postId)
-    
+
     if postId is None:
         return 'postId has illegal value: %s' % postId
 
@@ -105,7 +105,7 @@ def add_image(conn, boardId, current_time, filename, filedata):
     post_row = curs.fetchone()
     if post_row is not None:
         postId = post_row['formId']
-        process_file_upload(postId, filename, filedata, curs)
+        return process_file_upload(postId, filename, filedata, curs)
 
 
 def display_image(conn, postId):
@@ -294,9 +294,11 @@ def addPost(boards, subject, message, tags, image):
             addTags(boardId, current_time, tags, conn)
 
             if image is not None:
-                add_image(conn, boardId, current_time, image.filename, image.file)
+                img_result = add_image(conn, boardId, current_time, image.filename, image.file)
+            else:
+                img_result = "none"
 
-            sent += board + ","
+            sent += board + " with image " + img_result + ","
 
         else:
             failed_to_send += board + ","
