@@ -2,9 +2,7 @@
 
 import sys
 import cgi
-import cgitb;
-
-cgitb.enable()
+import cgitb; cgitb.enable()
 
 import cgi_utils_sda
 import boardData
@@ -28,8 +26,7 @@ if __name__ == '__main__':
         'recipients': [],
         'subject': '',
         'message': '',
-        'tags': [],
-        'image': ''
+        'tags': []
     }
 
     # Processing new board
@@ -66,15 +63,16 @@ if __name__ == '__main__':
             post_values['tags'] = cgi.escape(
                 form_data.getfirst('new-post-tags')).split(',')
 
-        if 'new-post-image' in form_data:
-            post_values['image'] = cgi.escape(
-                form_data.getfirst('new-post-image'))
+        if form_data.has_key('new-post-image'):
+            image = form_data['new-post-image']
+        else:
+            image = None
 
         feedback = boardData.addPost(post_values['recipients'],
                                      post_values['subject'],
                                      post_values['message'],
-                                     post_values['tags'], post_values['image'])
-
+                                     post_values['tags'],
+                                     image)
 
 
     # Stuff to print boards

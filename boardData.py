@@ -5,9 +5,11 @@ from datetime import datetime
 import re
 import os
 
+
 import MySQLdb
 from neighbrd_dsn import DSN
 import dbconn
+
 
 DEST_DIR = '/home/neighbrd/public_html/images/'
 DEST_URL = '/~neighbrd/images/'
@@ -123,7 +125,7 @@ def getBoardNames():
     names = []
     while True:
         row = curs.fetchone()
-        if row == None:
+        if row is None:
             return "\n".join(names)
         names.append(
             "<li id=\"{boardId}-nav\"><a href=\"#\">{name}</a></li>".format(
@@ -287,7 +289,8 @@ def addPost(boards, subject, message, tags, image):
 
             addTags(boardId, current_time, tags, conn)
 
-            add_image(conn, boardId, current_time, image.filename, image.file)
+            if image is not None:
+                add_image(conn, boardId, current_time, image.filename, image.file)
 
             sent += board + ","
 
