@@ -342,6 +342,7 @@ def main(session_key):
 
 if __name__ == "__main__":
     session_key = sys.argv[1]
+    print session_key
     print main(session_key)
 
 
