@@ -83,8 +83,11 @@ def process_file_upload(postId, client_filename, local_file, cursor):
         return 'Uploaded file is too big: ' + str(len(file_data))
 
     ## Get the postId, which we will either use as a DB key or a filename
-    postId = check_integer(postId, None)
-    if postId == None:
+    try:
+        postId = check_integer(postId, None)
+    except:
+        print 'postId has type ', type(postId)
+    if postId is None:
         return 'postId has illegal value: %s' % postId
 
     return store_data_in_filesystem_paranoid(postId, client_filename,
