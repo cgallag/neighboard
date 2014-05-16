@@ -107,14 +107,14 @@ def getBoardNames():
     conn = dbconn.connect(DSN)
 
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    curs.execute("select boardId, name from board where type='board'")
+    curs.execute("select boardId, name, mailname from board where type='board'")
     names = []
     while True:
         row = curs.fetchone()
         if row is None:
             return "\n".join(names)
         names.append(
-            "<li id=\"{boardId}-nav\"><a href=\"#\">{name}</a></li>".format(
+            "<li id=\"{mailname}-nav\"><a href=\"#\">{name}</a></li>".format(
                 **row))
 
 
@@ -135,7 +135,7 @@ def displayBoards():
 			<div class=\"panel-heading\">{name}<span class=\"badge pull-right\">"""
 
     panel_html_posts = """</span></div>
-			<div class=\"list-group\" id=\"{mailname}-board\">"""
+			<div class=\"list-group\" id=\"{mailname}\">"""
 
     panel_html_end = """
 			</div>
