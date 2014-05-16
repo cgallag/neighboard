@@ -28,9 +28,9 @@ require_once("/home/cs304/public_html/php/MDB2-functions.php");
 // The following defines the data source name (username, password,
 // host and database).
  
-require_once('scusack-dsn.inc');
+require_once('neighbrd-dsn.inc');
 
-$dbh = db_connect($scusack_dsn);
+$dbh = db_connect($neighbrd_dsn);
  
 session_start();
 
@@ -83,7 +83,7 @@ setcookie('username',$session);
 header( 'Location: http://cs.wellesley.edu/~cgallag2/cgi-bin/NeighBoardPosts.cgi' ) ;
 //session key in table with user name, redirect and pass in session key (randomly generated)
 //generate session key and insert in php, access from python to redirect, URL includes session key, no username.
-// for this test, simply print that the authentication was successfull
+// for this test, simply print that the authentication was successful
 
 
 ?>
