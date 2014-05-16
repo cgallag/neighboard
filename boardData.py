@@ -110,7 +110,7 @@ def display_image(conn, postId):
     if post_row is not None:
         picUrl = post_row['picUrl']
         return "<img alt={postId}-img src={picUrl}>".format(postId=postId,
-                                                           picUrl=picUrl)
+                                                            picUrl=picUrl)
     else:
         return ""
 
@@ -135,7 +135,7 @@ def displayBoards():
 
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
     curs.execute(
-        "select boardId, name, mailname from board where type='board'");
+        "select boardId, name, mailname from board where type='board'")
     total_boards = curs.rowcount
 
     boards_printed = 0
@@ -156,14 +156,15 @@ def displayBoards():
     while True:
         row = curs.fetchone()
 
-        if row == None:
+        if row is None:
             return ["\n".join(boards_1), "\n".join(boards_2)]
 
         boardId = row['boardId']
         [posts, numposts] = displayPosts(boardId, conn)
 
         board_html = (
-            panel_html_heading + str(numposts) + panel_html_posts).format(**row)
+            panel_html_heading + str(numposts) + panel_html_posts).format(
+            **row)
         board_html += posts
         board_html += panel_html_end
 
@@ -193,9 +194,9 @@ def displayPosts(boardId, conn):
     start_post = """<a href="#" class="list-group-item">"""
 
     post_html = """
-			<h4 class="list-group-item-heading">{title}</h4>
-			<p>{content}</p>
-			<h4><small>"""
+            <h4 class="list-group-item-heading">{title}</h4>
+            <p>{content}</p>
+            <h4><small>"""
 
     end_post = "</small></h4> </a>"
 
@@ -231,10 +232,11 @@ def displayTags(postId, conn):
     while True:
         row = curs.fetchone()
 
-        if row == None:
+        if row is None:
             return tags
 
-        tags += "#" + row['value'].lower().strip() + " "
+        if row['value'] != "":
+            tags += "#" + row['value'].lower().strip() + " "
 
 
 def addBoard(name, privacy_level, category):
@@ -327,7 +329,7 @@ def main():
 if __name__ == "__main__":
     for each in main():
         print each
-    #main()
+        #main()
 
 
 
