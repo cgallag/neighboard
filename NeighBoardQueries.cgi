@@ -28,7 +28,6 @@ if __name__ == '__main__':
 
 
 	if 'tags' in form_data:
-		feedbackDate="Test Value 2"
 		tag_values['tags'] = cgi.escape(form_data.getfirst('tags')).split(',')
 		feedbackTags = queryData.searchByTags(tag_values['tags'])
 		
@@ -47,7 +46,7 @@ if __name__ == '__main__':
 			searchDate = searchDate+"-"+date_values['day']
 
 		feedbackDate = queryData.searchByDate(searchDate)
-		#feedbackDate = "Search Value: "+searchDate+" Test Value 3"
+		
 
 	
 	

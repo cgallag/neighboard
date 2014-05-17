@@ -19,19 +19,34 @@ def addTags(formId, tags, conn):
 		curs.execute("insert into tag values (%s, %s, %s)", 
 			(tagId, formId, standardized_tag))
 
+# def getPetition(petitionName):
+# 	DSN['database'] = 'scusack_db'
+# 	conn = dbconn.connect(DSN)
+	
+# 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+# 	curs.execute("select formId from form where type='petition' and title=%s", (petitionName,))
+
+# 	iD = []
+# 	while True:
+# 		row = curs.fetchone()
+# 		if row ==None:
+# 			return iD
+# 		iD.append(row)
+
+
 
 def getPetitionNames():
 	DSN['database'] = 'scusack_db'
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-	curs.execute("select formId, title from form where type='petition'");
+	curs.execute("select formId, title from form where type='petition'")
 	names = []
 	while True:
 		row = curs.fetchone()
 		if row == None:
 			return "\n".join(names)
-		names.append("<li id=\"{formId}-nav\"><a href=\"#\">{title}</a></li>".format(**row))
+		names.append("<li id=\"{formId}\"><a href=\"#\">{title}</a></li>".format(**row))
 
 def addPetition(emailName, boards, title, message, tags):
 	DSN['database'] = 'scusack_db'
@@ -92,8 +107,27 @@ def displayTags(postId, conn):
 
 		tags += "#" + row['value'].lower().strip() + " "
 
+def displayPetition(petitionID):
+	DSN['database'] = 'scusack_db'
+	conn = dbconn.connect(DSN)
+	
+	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+	curs.execute("select title as title, content as content from form where type='petition' and formId=%s", (petitionID,))
+	petition = []
+	while True:
+		row = curs.fetchone()
+		if row == None:
+			return "\n".join(petition)
+		petition.append("<h2>{title}</h2> <div class='form-group' name='signature' id='signature'>".format(**row))
+		petition.append("<div class='text'>{content}</div>".format(**row))
+		petition.append("<div class='checkbox'><input type='checkbox' id='signature1'> Sign the Petition</label></div></div>".format(**row))
+
+
+
 def main():
-	addPetition("scusack", "Petitions", "Can I Please Graduate", "I don't want to do things anymore...")
+	#addPetition("scusack", "Petitions", "Can I Please Graduate", "I don't want to do things anymore...")
+	#petitionid = getPetition("Duplicate?")
+	print displayPetition(6)
 	
 
 if __name__ == "__main__":

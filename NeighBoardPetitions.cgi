@@ -47,6 +47,7 @@ if __name__ == '__main__':
 
 	# Stuff to print boards
 	names = petitionData.getPetitionNames()
+	petitionContent = petitionData.displayPetition(6)
 	tmpl = cgi_utils_sda.file_contents('NeighBoard_Petition.html')
-	page = tmpl.format(feedback=feedback, petitionnames=names)
+	page = tmpl.format(feedback=feedback, petitionnames=names, petitionContent=petitionContent)
 	print page

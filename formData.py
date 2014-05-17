@@ -25,23 +25,6 @@ def getAdmin():
 			return "\n".join(names)
 		names.append("<option>{username}</option>".format(**row))
 
-# def getAdminBoard(admin):
-# 	DSN['database'] = 'scusack_db'
-# 	conn = dbconn.connect(DSN)
-# 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-
-# 	result = ""
-
-# 	searchAdmin = admin+"feedback"
-
-# 	curs.execute("select boardId from board where name = %s", searchAdmin)
-# 	row = curs.fetchone()
-# 	if row==None:
-# 		result = "no such board exists"
-# 		return result
-# 	else:
-# 		result = row["boardId"]
-# 		return result
 
 def addFeedback(boardname, subject, message):
 	DSN['database'] = 'scusack_db'
@@ -55,26 +38,37 @@ def addFeedback(boardname, subject, message):
 	feedback_row=curs.fetchone()
 	feedbackId=feedback_row['id']+1
 
+	boardID=0
 	curs.execute("select boardId as id from board where name=%s", (boardnameStr,))
-	print boardnameStr
+	
 	board_row = curs.fetchone()
+	
 
 	if board_row != None:
 		boardID = board_row['id']
-		print boardID
     	current_time = str(datetime.now())
-
-        curs.execute("insert into form values (%s, %s, %s, %s, %s, 2, 'feedback')", 
+    	print "step 1"
+    	if boardID==0:
+    		print "step 2"
+    		curs.execute('select max(boardId) as id from board')
+    		board_row=curs.fetchone()
+    		boardID=board_row['id']+1
+    		curs.execute("insert into board values(%s, %s, NULL, 'private', 'staff')", (boardID, boardnameStr,))
+    		print "board added"
+    	print "step 3"
+    	curs.execute("insert into form values (%s, %s, %s, %s, %s, 2, 'feedback')", 
         	(feedbackId, boardID, current_time, subject, message,))
-        sent += boardname + ","
-	if failed_to_send != "":
-		unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
-	else:
-		unsent = ""
-	return "Post sent to " + sent.rstrip(",") + "<br>" + unsent
+    	print "executed query"
+	# 	sent += boardname + ","
+	# if failed_to_send != "":
+	# 	unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
+	# else:
+	# 	unsent = ""
+	return "Post sent to " #+ sent.rstrip(",") + "<br>" + unsent
 	
 
     
 if __name__ == "__main__":
-        addFeedback('scusack', 'feedback test', 'sydney is awesome sauce')
+        addFeedback('kbottoml', 'feedback test', 'kbot is awesome sauce')
+        addFeedback('rpurcell', 'duplicate test', 'CAPS TO FIND IT')
         print getAdmin()

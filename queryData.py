@@ -14,50 +14,38 @@ def searchByTags(tagValues):
 
 	for tagValue in tagValues:
 		tagname = tagValue.strip().lower().replace(" ", "-")
+		#print tagname
 		
-		curs.execute("select postId, formId, title, content from form inner join tag where formId=postId and value=%s", (tagValue,))
-
-		numposts = curs.rowcount
-		#print numposts
+		curs.execute("select name, title, content, created, value from form inner join tag inner join board where formId=postId and form.boardId=board.boardId and value=%s and type!='feedback'", (tagValue,))
 
 		isFirst = True
 		posts = []
 	
-		start_post_active = """<a href="#" class="list-group-item active">"""
+		start_post_active = "<p class='text'>"
+					
+		start_post = "<p class='text'>"
+
+		post_html = "<h4 class='text'>{title}</h4><p>Board: {name}</p><p>{content}</p><p>Date: {created}</p><p>Tags: {value}</p>"
 			
-		start_post = """<a href="#" class="list-group-item">"""
-
-		post_html = """
-			<h4 class="list-group-item-heading">{title}</h4>
-			<p>{content}</p>
-			<h4><small>"""
-	
-		end_post = "</small></h4> </a>"
-
-		#resultDisplay = "<p>"
+		end_post = "</p> </p>"
 
 		while True:
 			row = curs.fetchone()
 
 			if row == None:
-				return ["\n".join(posts), numposts]
-				#return resultDisplay+"</p>"
-
-			# postId = row['postId']
-		
-
-			# post_tags = displayTags(postId, conn)
-
+				return "\n".join(posts)
+				
 			if isFirst:
-				posts.append(start_post_active + post_html.format(**row) + end_post)
-				#print posts
-				#resultDisplay = resultDisplay+postTitle+"\n"+postContent+"\n\n"
+				posts.append(start_post_active.format(**row))
+				posts.append(post_html.format(**row))
+				posts.append(end_post.format(**row))
 				isFirst = False
 
 			else:
-				posts.append(start_post + post_html.format(**row) + end_post)
-				#print posts
-				#resultDisplay = resultDisplay+postTitle+"\n"+postContent+"\n\n"
+				posts.append(start_post.format(**row))
+				posts.append(post_html.format(**row))
+				posts.append(end_post.format(**row))
+			
 
 def searchByDate(searchDate):
 	DSN['database'] = 'scusack_db'
@@ -69,21 +57,18 @@ def searchByDate(searchDate):
 
 	#print formatSearchDate
 
-	curs.execute("select title, content, formId from form where created like %s", (formatSearchDate,))
-
-	numposts = curs.rowcount
-	#print numposts
+	curs.execute("select title, content, name, created from form inner join board where form.boardId=board.boardId and created like %s", (formatSearchDate,))
 
 	isFirst = True
 	posts = []
 	
-	start_post_active = "<a href='#' class='list-group-item active'>"
+	start_post_active = "<p class='text'>"
 			
-	start_post = "<a href='#' class='list-group-item'>"
+	start_post = "<p class='text'>"
 
-	post_html = "<h4 class='list-group-item-heading'>{title}</h4><p>{content}</p><h4><small>"
+	post_html = "<h4 class='text'>{title}</h4><p>{content}</p><p>Date: {created}</p>"
 	
-	end_post = "</small></h4> </a>"
+	end_post = "</p> </p>"
 
 	while True:
 		row = curs.fetchone()
@@ -91,21 +76,21 @@ def searchByDate(searchDate):
 		if row == None:
 			return "\n".join(posts)
 
-		#postId = row['formId']
-
-		#post_tags = displayTags(postId, conn)
-
 		if isFirst:
-			posts.append(start_post_active + post_html.format(**row) + end_post)
+			posts.append(start_post_active.format(**row))
+			posts.append(post_html.format(**row))
+			posts.append(end_post.format(**row))
 			isFirst = False
 
 		else:
-			posts.append(start_post + post_html.format(**row) + end_post)
+			posts.append(start_post.format(**row))
+			posts.append(post_html.format(**row))
+			posts.append(end_post.format(**row))
 
 
 def main():
-	searchByTags("wellesley")
-	searchByDate("2014-05-14")
+	searchByTags("testTag")
+	#searchByDate("2014-05-14")
 	
 
 if __name__ == "__main__":
