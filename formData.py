@@ -5,15 +5,15 @@ import os
 
 
 import MySQLdb
-from scusack_dsn import DSN
+from neighbrd_dsn import DSN
 import dbconn
 
 def getAdmin():
-	DSN['database'] = 'scusack_db'
+	DSN['database'] = 'neighbrd_db'
 	conn = dbconn.connect(DSN)
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
-	curs.execute("select userId, username from user where category='staff'")
+	curs.execute("select userId, username, name from user where category='staff'")
 	
 	#Need to add the menu elements here, using the results
 	#from the database query.
@@ -26,8 +26,8 @@ def getAdmin():
 		names.append("<option>{username}</option>".format(**row))
 
 
-def addFeedback(boardname, subject, message):
-	DSN['database'] = 'scusack_db'
+def addFeedback(boardname, subject, message, creator):
+	DSN['database'] = 'neighbrd_db'
 	conn = dbconn.connect(DSN)
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
@@ -53,7 +53,7 @@ def addFeedback(boardname, subject, message):
     		curs.execute('select max(boardId) as id from board')
     		board_row=curs.fetchone()
     		boardID=board_row['id']+1
-    		curs.execute("insert into board values(%s, %s, NULL, 'private', 'staff')", (boardID, boardnameStr,))
+    		curs.execute("insert into board values(%s, %s, %s, %s, 'feedback', 'private', 'staff')", (boardID, boardname, boardnameStr,creator,))
     		print "board added"
     	print "step 3"
     	curs.execute("insert into form values (%s, %s, %s, %s, %s, 2, 'feedback')", 
@@ -65,10 +65,53 @@ def addFeedback(boardname, subject, message):
 	# else:
 	# 	unsent = ""
 	return "Post sent to " #+ sent.rstrip(",") + "<br>" + unsent
+
+
+def get_user(session_id):
+	conn = dbconn.connect(DSN)
+	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+
+	user_dict = {
+		'username': "wwellesley",
+		'user_id': "0",
+		'name': "Wendy Wellesley"
+	}
+
+	try:
+		curs.execute("select * from usersessions where sessionkey=%s",
+			(session_id,))
+
+		row = curs.fetchone()
+		username = row['username']
+		user_dict['username'] = username
+
+		curs.execute("select * from user where username=%s", (username,))
+
+		user_row = curs.fetchone()
+		user_dict['user_id'] = user_row['userId']
+		user_dict['name'] = user_row['name']
+		print user_dict['name']
+	except:
+		pass
+
+	return user_dict
+
+
+def display_name(conn, creator):
+	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+	curs.execute("select * from user where userId=%s", (creator,))
+	row = curs.fetchone()
+
+	name = row["name"]
+
+	if row is None:
+		return ""
+	else:
+		return "<small>By " + name + "</small>" 
 	
 
     
 if __name__ == "__main__":
-        addFeedback('kbottoml', 'feedback test', 'kbot is awesome sauce')
-        addFeedback('rpurcell', 'duplicate test', 'CAPS TO FIND IT')
+        #addFeedback('kbottoml', 'feedback test', 'kbot is awesome sauce')
+        #addFeedback('rpurcell', 'duplicate test', 'CAPS TO FIND IT')
         print getAdmin()

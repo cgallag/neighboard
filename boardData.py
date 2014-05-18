@@ -125,6 +125,7 @@ def get_user(session_id):
         curs.execute("select * from user where username=%s", (username,))
 
         user_row = curs.fetchone()
+
         user_dict['user_id'] = user_row['userId']
         user_dict['name'] = user_row['name']
 

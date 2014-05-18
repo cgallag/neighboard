@@ -13,11 +13,20 @@ if __name__ == '__main__':
 
 	feedback = ""
 
+
+	try:
+		session_cookie = cgi_utils_sda.getCookieFromRequest('PHPSESSID')
+		session_id = session_cookie.value
+	except:
+		session_id = "null"
+	
+	user_dict = formData.get_user(session_id)
+	name = user_dict['name']
+	
 	# Process data from new board and new post forms
 	form_data = cgi.FieldStorage()
 
 	feedback_values = {
-		'creator': '2',
 		'recipient': '',
 		'title': 'Feedback Post',
 		'message': ''
@@ -33,13 +42,12 @@ if __name__ == '__main__':
 			feedback_values['message'] = cgi.escape(form_data.getfirst('question1'))
 
 
-
 		#adminId = formData.getAdminBoard(feedback_values["recipient"])
-		feedback = formData.addFeedback(feedback_values['recipient'], feedback_values["title"], feedback_values['message'],)
+		feedback = formData.addFeedback(feedback_values['recipient'], feedback_values["title"], feedback_values['message'], user_dict['user_id'])
 
 
 	# Stuff to print boards
 	names = formData.getAdmin()
 	tmpl = cgi_utils_sda.file_contents('NeighBoard_Form.html')
-	page = tmpl.format(feedback=feedback, adminNames=names)
+	page = tmpl.format(feedback=feedback, adminNames=names, name=name)
 	print page

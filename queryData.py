@@ -2,12 +2,13 @@
 #User Comment Here
 
 import sys
+import os
 import MySQLdb
-from scusack_dsn import DSN 
+from neighbrd_dsn import DSN 
 import dbconn
 
 def searchByTags(tagValues):
-	DSN['database'] = 'scusack_db'
+	DSN['database'] = 'neighbrd_db'
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -16,7 +17,7 @@ def searchByTags(tagValues):
 		tagname = tagValue.strip().lower().replace(" ", "-")
 		#print tagname
 		
-		curs.execute("select name, title, content, created, value from form inner join tag inner join board where formId=postId and form.boardId=board.boardId and value=%s and type!='feedback'", (tagValue,))
+		curs.execute("select name, title, content, created, value from form inner join tag inner join board where formId=postId and form.boardId=board.boardId and value=%s and form.type!='feedback'", (tagValue,))
 
 		isFirst = True
 		posts = []
@@ -48,7 +49,7 @@ def searchByTags(tagValues):
 			
 
 def searchByDate(searchDate):
-	DSN['database'] = 'scusack_db'
+	DSN['database'] = 'neighbrd_db'
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -57,7 +58,7 @@ def searchByDate(searchDate):
 
 	#print formatSearchDate
 
-	curs.execute("select title, content, name, created from form inner join board where form.boardId=board.boardId and created like %s", (formatSearchDate,))
+	curs.execute("select title, content, name, created from form inner join board where form.boardId=board.boardId and form.type!='feedback' and created like %s", (formatSearchDate,))
 
 	isFirst = True
 	posts = []
@@ -87,6 +88,47 @@ def searchByDate(searchDate):
 			posts.append(post_html.format(**row))
 			posts.append(end_post.format(**row))
 
+def get_user(session_id):
+    conn = dbconn.connect(DSN)
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+
+    user_dict = {
+        'username': "null",
+        'user_id': "null",
+        'name': "null"
+    }
+
+    try:
+        curs.execute("select * from usersessions where sessionkey=%s",
+                     (session_id,))
+
+        row = curs.fetchone()
+        username = row['username']
+        user_dict['username'] = username
+
+        curs.execute("select * from user where username=%s", (username,))
+
+        user_row = curs.fetchone()
+        user_dict['user_id'] = user_row['userId']
+        user_dict['name'] = user_row['name']
+
+    except:
+        pass
+
+    return user_dict
+
+
+def display_name(conn, creator):
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    curs.execute("select * from user where userId=%s", (creator,))
+    row = curs.fetchone()
+
+    name = row["name"]
+
+    if row is None:
+        return ""
+    else:
+        return "<small>By " + name + "</small>"    
 
 def main():
 	searchByTags("testTag")
