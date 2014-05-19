@@ -27,7 +27,6 @@ if __name__ == '__main__':
 	user_dict = petitionData.get_user(session_id)
 	name = user_dict['name']
 
-	# Process data from new board and new post forms
 	form_data = cgi.FieldStorage()
 
 	petition_values = {
@@ -86,7 +85,7 @@ if __name__ == '__main__':
 	petitionOptions = petitionData.getPetitionOptions()
 	petitionOptions2 = petitionData.getPetitionOptions()
 	petitionDates = petitionData.getDateCreated()
-	#petitionContent = petitionData.displayPetition(6)
+	
 	tmpl = cgi_utils_sda.file_contents('NeighBoard_Petition.html')
 	page = tmpl.format(feedback=feedback, petitionnames=names, petitionContent=petitionContent, petitionOptions2=petitionOptions2, 
 		name=name, petitionOptions=petitionOptions, petitionDates=petitionDates)

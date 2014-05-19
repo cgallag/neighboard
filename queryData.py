@@ -27,7 +27,7 @@ def searchByTags(tagValues):
 			
 	end_post = "</p> </p>"
 
-	#For each row, format.  Each post is unique, based on which board it was sent to
+
 	while True:
 		row = curs.fetchone()
 
@@ -36,7 +36,6 @@ def searchByTags(tagValues):
 		else:
 			posts.append(start_post.format(**row))
 			posts.append(post_html.format(**row))
-			#posts.append(displayTags(row['formId']))
 			posts.append(end_post.format(**row))
 			
 #Connects to the database, queries whatever date constraints the user provides, and returns all dates within those constraints.
@@ -106,8 +105,6 @@ def getTags():
 
 	curs.execute("select value from tag")
 	
-	#Need to add the menu elements here, using the results
-	#from the database query.
 	repeatnames = []
 	names = []
 	while True:
@@ -118,23 +115,6 @@ def getTags():
 			names.append("<option>{value}</option>".format(**row))
 			repeatnames.append(row['value'])
 		
-
-def displayTags(postId):
-	DSN['database'] = 'neighbrd_db'
-	conn = dbconn.connect(DSN)
-	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-	curs.execute("select * from tag where postId=%s", (postId,))
-
-	tags = ""
-
-	while True:
-		row = curs.fetchone()
-
-		if row is None:
-			return tags
-
-			if row['value'] != "":
-				tags = tags+("<p>Tags: {value}</p>").format(**row)
 
 def main():
 	searchByTags("testTag")

@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
 	feedback = ""
 
-
+	#get the session ID from cookie
 	try:
 		session_cookie = cgi_utils_sda.getCookieFromRequest('PHPSESSID')
 		session_id = session_cookie.value
@@ -23,7 +23,6 @@ if __name__ == '__main__':
 	user_dict = formData.get_user(session_id)
 	name = user_dict['name']
 	
-	# Process data from new board and new post forms
 	form_data = cgi.FieldStorage()
 
 	feedback_values = {
@@ -31,8 +30,6 @@ if __name__ == '__main__':
 		'title': 'Feedback Post',
 		'message': ''
 	}
-
-	# Processing new board
 	
 
 	if 'select1' in form_data:
@@ -42,7 +39,6 @@ if __name__ == '__main__':
 			feedback_values['message'] = cgi.escape(form_data.getfirst('question1'))
 
 
-		#adminId = formData.getAdminBoard(feedback_values["recipient"])
 		feedback = formData.addFeedback(feedback_values['recipient'], feedback_values["title"], feedback_values['message'], user_dict['user_id'])
 
 
