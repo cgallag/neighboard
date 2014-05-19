@@ -18,41 +18,40 @@
   </head>
 
 <body>
-  <!-- Fixed navbar -->
-  <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">NeighBoard</a>
-      </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav pages">
-          <li id="home-nav"><a href="NeighBoardPosts.cgi">Home</a></li>
-          <li id="feedback-nav" class="active"><a href="NeighBoardFeedback.cgi">Feedback</a></li>
-          <li id="petitions-nav"><a href="NeighBoardPetitions.cgi">Petitions</a></li>
-          <li id="queries-nav"><a href="NeighBoardQueries.cgi">Search</a></li>
-          <li id="logout-nav"><a href="Logout.php">Logout</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right pages">
-          <p class="navbar-text">
-              <span class="glyphicon glyphicon-user"></span>
-              {name}
-          </p>
-          <li id="settings-nav"><a href="#settings"><span class="glyphicon glyphicon-cog"></span></a></li>
-        </ul>
-      </div><!--/.nav-collapse -->
+  <!-- Fixed navbar at top of page -->
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="">NeighBoard</a>
     </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav pages">
+        <li id="home-nav" class="active"><a href="NeighBoardPosts.cgi">Home</a></li>
+        <li id="feedback-nav"><a href="NeighBoardFeedback.cgi">Feedback</a></li>
+        <li id="petitions-nav"><a href="NeighBoardPetitions.cgi">Petitions</a></li>
+        <li id="search-nav"><a href="NeighBoardQueries.cgi">Search</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right pages">
+        <p class="navbar-text">
+            <span class="glyphicon glyphicon-user"></span>
+            {name}
+        </p>
+        <li id="logout-nav"><a href="Logout.php">Logout</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
   </div>
+</div>
 
-<div class "container" style="padding: 80px;">
+<div class="container" style="padding: 80px;">
 <form class="form-horizontal" role="form"> 
 <h2>Administrator Feedback Form</h2>  
-<div class "row">
+<div class="row">
   <div class="col-md-12">
     <h3>Select Administrator: </h3>
   </div> 
@@ -65,12 +64,12 @@
       </select>
   </div>
 
-<div class "row">
+<div class="row">
   <div class="col-md-12">
     <label for="Question1">Please Enter Your Feedback Below: </label>
   </div>
 </div>
-<div class "row">
+<div class="row">
     <div class="col-md-offset-1 col-md-8">
       <textarea class="form-control" name="question1" id="question1" required autofocus></textarea>
     </div>
@@ -78,7 +77,7 @@
   </div>
   {feedback}
 
-<div class "row"> 
+<div class="row">
 <div class="col-md-offset-1 col-md-3">
   <div class="col-md-3">
   <button type="submit" class="btn btn-success btn-lg">Submit</button>
