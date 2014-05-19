@@ -46,6 +46,7 @@ def addFeedback(boardname, subject, message, creator):
 	numrows = curs.rowcount
 	if numrows!=0:
 		boardID=board_row['id']
+	print boardID
 	
 
 	if board_row != None:
@@ -109,6 +110,6 @@ def display_name(conn, creator):
 
     
 if __name__ == "__main__":
-        #addFeedback('kbottoml', 'feedback test', 'kbot is awesome sauce')
+        addFeedback('kbottoml', 'feedback test', 'kbot is awesome sauce')
         #addFeedback('rpurcell', 'duplicate test', 'CAPS TO FIND IT')
-        print getAdmin()
+        #print getAdmin()
