@@ -49,9 +49,7 @@ def addFeedback(boardname, subject, message, creator):
 	
 
 	if board_row != None:
-		boardID = board_row['id']
     	current_time = str(datetime.now())
-    	print "step 1"
     	if boardID==0:
     		curs.execute('select max(boardId) as id from board')
     		board_row=curs.fetchone()
@@ -59,8 +57,8 @@ def addFeedback(boardname, subject, message, creator):
     		curs.execute("insert into board values(%s, %s, %s, %s, 'feedback', 'private', 'staff')", (boardID, boardnameStr, boardname,creator,))
 
 		curs.execute("insert into form values (%s, %s, %s, %s, %s, %s, 'feedback')", 
-        	(feedbackId, boardID, current_time, subject, message,user_dict['user_id']),)
-    	sent += boardname + ","
+        	(feedbackId, boardID, current_time, subject, message, user_dict['user_id']),)
+    	sent += boardnameStr + ","
 	if failed_to_send != "":
 		unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
 	else:
