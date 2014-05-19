@@ -44,7 +44,7 @@ def addFeedback(boardname, subject, message, creator):
 	
 	board_row = curs.fetchone()
 	numrows = curs.rowcount
-	if numrows!=0
+	if numrows!=0:
 		boardID=row['id']
 	
 
