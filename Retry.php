@@ -49,12 +49,10 @@ phpCAS::client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_context);
 // VALIDATING THE CAS SERVER IS CRUCIAL TO THE SECURITY OF THE CAS PROTOCOL!
 phpCAS::setNoCasServerValidation();
 
+setcookie('PHPSESSID', false);
+phpCAS::logout(array('url'=>"http://cs.wellesley.edu/~neighbrd/phpCASexample.php");
+die();
 
-// logout if desired
-session_destroy();
-
-header("Location: http://cs.wellesley.edu/~neighbrd/phpCASexample.php");
-exit;
 
 
 //$resultset = query($dbh,$sql, $value);
