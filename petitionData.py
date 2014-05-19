@@ -77,10 +77,6 @@ def signPetition(petitionName, dateCreated, signerId):
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
-	# curs.execute('select max(sigId) as id from signature')
-	# signature_row=curs.fetchone()
-	# signatureId=signature_row['id']+1
-
 	curs.execute("select formId as id from form where type='petition' and title=%s and created=%s", (petitionName, dateCreated))
 	sent = ""
 	petitionIDS = []
@@ -114,7 +110,6 @@ def addPetition(boards, title, message, tags, creator):
 
 	for board in boards:
 		boardname = board.strip().lower().replace(" ", "-")
-		#print 'Searching for board ' + mailname
 		curs.execute("select boardId from board where name=%s", (boardname,))
 		board_row = curs.fetchone()
 		if board_row != None:
@@ -132,7 +127,6 @@ def addPetition(boards, title, message, tags, creator):
 				(petitionId, boardId, current_time, title, message, creator,))
 			addTags(petitionId, tags, conn)
 			print 'petition added'
-			#addTags(boardId, current_time, tags, conn)
 
 			sent += board + ","
 
@@ -146,21 +140,7 @@ def addPetition(boards, title, message, tags, creator):
 
 	return "Post sent to " + sent.rstrip(",") + "<br>" + unsent
 
-
-# def displayTags(postId, conn):
-# 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-# 	curs.execute("select * from tag where postId=%s", (postId,))
-
-# 	tags = ""
-
-# 	while True:
-# 		row = curs.fetchone()
-
-# 		if row == None:
-# 			return tags
-
-# 		tags += "#" + row['value'].lower().strip() + " "
-
+#displays selected petition attributes in HTML format
 def displayPetition(petitionName):
 	DSN['database'] = 'neighbrd_db'
 	conn = dbconn.connect(DSN)
@@ -206,18 +186,6 @@ def get_user(session_id):
 
 	return user_dict
 
-
-def display_name(conn, creator):
-	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-	curs.execute("select * from user where userId=%s", (creator,))
-	row = curs.fetchone()
-
-	name = row["name"]
-
-	if row is None:
-		return ""
-	else:
-		return "<small>By " + name + "</small>" 
 
 def main():
 	#addPetition("scusack", "Petitions", "Can I Please Graduate", "I don't want to do things anymore...")
