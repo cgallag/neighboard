@@ -10,7 +10,6 @@ if __name__ == '__main__':
 	print "Content-type: text/html\n"
 
 	feedbackTags = ""
-
 	feedbackDate = ""
 
 	name=""
@@ -40,7 +39,7 @@ if __name__ == '__main__':
 	}
 
 	tag_values = {
-		'tags': []
+		'tags': ''
 	}
 
 
@@ -48,20 +47,20 @@ if __name__ == '__main__':
 		tag_values['tags'] = cgi.escape(form_data.getfirst('tagselect'))
 		feedbackTags = queryData.searchByTags(tag_values['tags'])
 		
-	if ('year' or 'month' or 'day') in form_data:
-		searchDate = ""
-		if 'year' in form_data:
-			date_values['year'] = cgi.escape(form_data.getfirst('year'))
-			searchDate = searchDate+date_values['year']
+	searchDate = ""
+	if 'year' in form_data:
+		date_values['year'] = cgi.escape(form_data.getfirst('year'))
+		searchDate = searchDate+date_values['year']
 
-		if 'month' in form_data:
-			date_values['month'] = cgi.escape(form_data.getfirst('month'))
-			searchDate = searchDate+"-"+date_values['month']
+	if 'month' in form_data:
+		date_values['month'] = cgi.escape(form_data.getfirst('month'))
+		searchDate = searchDate+"-"+date_values['month']
 
-		if 'day' in form_data:
-			date_values['day'] = cgi.escape(form_data.getfirst('day'))
-			searchDate = searchDate+"-"+date_values['day']
+	if 'day' in form_data:
+		date_values['day'] = cgi.escape(form_data.getfirst('day'))
+		searchDate = searchDate+"-"+date_values['day']
 
+	if searchDate !="":
 		feedbackDate = queryData.searchByDate(searchDate)
 		
 	tmpl = cgi_utils_sda.file_contents('NeighBoardQueries.html')

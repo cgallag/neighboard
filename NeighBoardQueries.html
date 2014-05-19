@@ -55,18 +55,27 @@
     
   <div class="col-md-10 pull-right">
   <h2>Search By Tag</h2> 
-    <form class="form-horizontal" role="form">
+    <form class="form-horizontal" role="form" name="tagForm" id="tagForm">
 
       <div class="form-group">
         <label for="tags" class="col-md-2 control-label">Tags</label>
         <div class="col-md-10">
-          <select class="col-md-offset-1 col-md-4" name = "tagselect" id="tagselect">
+          <select class="col-md-offset-1 col-md-4" name="tagselect" id="tagselect">
             {tagnames}
           </select>
         </div>
       </div>
 
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-success btn-lg">Search By Tag</button>
+        </div>
+      </div>
+
       <p> {feedbackTags} </p>
+    </form>
+
+      <form class="form-horizontal" role="form" name="dateForm" id="dateForm">
 
       <div class="row">
       	<h2>Search By Date</h2>
@@ -79,15 +88,14 @@
       	  </div>
       	</div>
       </div>
-
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-success btn-lg">Search By Date</button>
+        </div>
+      </div>
 
   		<p> {feedbackDate} </p>
   		
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-success btn-lg">Submit</button>
-        </div>
-      </div>
     </form>
   </div>
 </div>
