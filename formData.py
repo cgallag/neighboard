@@ -40,8 +40,12 @@ def addFeedback(boardname, subject, message, creator):
 
 	boardID=0
 	curs.execute("select boardId as id from board where name=%s", (boardnameStr,))
+
 	
 	board_row = curs.fetchone()
+	numrows = curs.rowcount
+	if numrows!=0:
+		boardID=board_row['id']
 	
 
 	if board_row != None:
@@ -49,22 +53,19 @@ def addFeedback(boardname, subject, message, creator):
     	current_time = str(datetime.now())
     	print "step 1"
     	if boardID==0:
-    		print "step 2"
     		curs.execute('select max(boardId) as id from board')
     		board_row=curs.fetchone()
     		boardID=board_row['id']+1
-    		curs.execute("insert into board values(%s, %s, %s, %s, 'feedback', 'private', 'staff')", (boardID, boardname, boardnameStr,creator,))
-    		print "board added"
-    	print "step 3"
-    	curs.execute("insert into form values (%s, %s, %s, %s, %s, 2, 'feedback')", 
-        	(feedbackId, boardID, current_time, subject, message,))
-    	print "executed query"
-	# 	sent += boardname + ","
-	# if failed_to_send != "":
-	# 	unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
-	# else:
-	# 	unsent = ""
-	return "Post sent to " #+ sent.rstrip(",") + "<br>" + unsent
+    		curs.execute("insert into board values(%s, %s, %s, %s, 'feedback', 'private', 'staff')", (boardID, boardnameStr, boardname,creator,))
+
+		curs.execute("insert into form values (%s, %s, %s, %s, %s, %s, 'feedback')", 
+        	(feedbackId, boardID, current_time, subject, message,user_dict['user_id']),)
+    	sent += boardname + ","
+	if failed_to_send != "":
+		unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
+	else:
+		unsent = ""
+	return "Post sent to " + sent.rstrip(",") + "<br>" + unsent
 
 
 def get_user(session_id):
@@ -72,9 +73,9 @@ def get_user(session_id):
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
 	user_dict = {
-		'username': "wwellesley",
-		'user_id': "0",
-		'name': "Wendy Wellesley"
+		'username': "",
+		'user_id': "",
+		'name': ""
 	}
 
 	try:
