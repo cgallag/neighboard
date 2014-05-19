@@ -40,6 +40,7 @@ def addFeedback(boardname, subject, message, creator):
 
 	boardID=0
 	curs.execute("select boardId as id from board where name=%s", (boardnameStr,))
+
 	
 	board_row = curs.fetchone()
 	
@@ -49,13 +50,11 @@ def addFeedback(boardname, subject, message, creator):
     	current_time = str(datetime.now())
     	print "step 1"
     	if boardID==0:
-    		print "step 2"
+    		
     		curs.execute('select max(boardId) as id from board')
     		board_row=curs.fetchone()
     		boardID=board_row['id']+1
-    		curs.execute("insert into board values(%s, %s, %s, %s, 'feedback', 'private', 'staff')", (boardID, boardname, boardnameStr,creator,))
-    		print "board added"
-    	print "step 3"
+    		curs.execute("insert into board values(%s, %s, %s, %s, 'feedback', 'private', 'staff')", (boardID, boardnameStr, boardname,creator,))
     	curs.execute("insert into form values (%s, %s, %s, %s, %s, 2, 'feedback')", 
         	(feedbackId, boardID, current_time, subject, message,))
     	print "executed query"
