@@ -50,7 +50,7 @@ phpCAS::client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_context);
 phpCAS::setNoCasServerValidation();
 
 setcookie('PHPSESSID', false);
-phpCAS::logoutWithRedirectService("http://cs.wellesley.edu/~neighbrd/phpCASexample.php");
+phpCAS::logoutWithRedirectService("http://cs.wellesley.edu/~neighbrd/LogIn.php");
 die();
 
 
