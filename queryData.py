@@ -117,6 +117,25 @@ def get_user(session_id):
 
     return user_dict
 
+def getTags():
+	DSN['database'] = 'neighbrd_db'
+	conn = dbconn.connect(DSN)
+	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+
+	curs.execute("select value as tagName from tag")
+	
+	#Need to add the menu elements here, using the results
+	#from the database query.
+	repeatnames = []
+	names = []
+	while True:
+		row = curs.fetchone()
+		if row['tagName'] not in repeatnames:
+			names.append("<option>{tagName}</option>".format(**row))
+			repeatnames.append(row['tagName'])
+		if row == None:
+			return "\n".join(names)
+		
 
 def display_name(conn, creator):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)

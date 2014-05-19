@@ -82,7 +82,7 @@ $value = array($session, $strUser);
 //$strSession = strval($session)
 
 prepared_statement($dbh, $sql, $value);
-setcookie('username',$session);
+//setcookie('PHPSESSID',$session);
 
 //$resultset = query($dbh,$sql, $value);
  //set user in session or cookie variable

@@ -44,8 +44,8 @@ if __name__ == '__main__':
 	}
 
 
-	if 'tags' in form_data:
-		tag_values['tags'] = cgi.escape(form_data.getfirst('tags')).split(',')
+	if 'tagselect' in form_data:
+		tag_values['tags'] = cgi.escape(form_data.getfirst('tagselect'))
 		feedbackTags = queryData.searchByTags(tag_values['tags'])
 		
 	if ('year' or 'month' or 'day') in form_data:
@@ -65,7 +65,8 @@ if __name__ == '__main__':
 		feedbackDate = queryData.searchByDate(searchDate)
 		
 	tmpl = cgi_utils_sda.file_contents('NeighBoardQueries.html')
-	page = tmpl.format(feedbackTags=feedbackTags, feedbackDate=feedbackDate, name=name)
+	tagnames = queryData.getTags()
+	page = tmpl.format(feedbackTags=feedbackTags, feedbackDate=feedbackDate, name=name, tagnames=tagnames)
 	print page
 
 

@@ -56,7 +56,7 @@ phpCAS::setNoCasServerValidation();
 // and the user's login name can be read with phpCAS::getUser().
  
 // logout if desired
-
+	setcookie('PHPSESSID',false);
     phpCAS::logout();
     die();
 
