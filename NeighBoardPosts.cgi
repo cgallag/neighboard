@@ -1,7 +1,8 @@
 #!/usr/local/bin/python2.7
 
 import cgi
-import cgitb; cgitb.enable()
+import cgitb;cgitb.enable()
+import CookieJar
 
 import cgi_utils_sda
 import boardData
@@ -20,6 +21,7 @@ if __name__ == '__main__':
 
     # Display unauthorized user page if user is not in user database
     if not boardData.is_user(session_id):
+        CookieJar.clear('cs.wellesley.edu')
         tmpl = cgi_utils_sda.file_contents("NeighBoard_Unauthorized.html")
         print tmpl
 
