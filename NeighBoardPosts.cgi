@@ -21,7 +21,8 @@ if __name__ == '__main__':
 
     # Display unauthorized user page if user is not in user database
     if not boardData.is_user(session_id):
-        cookielib.CookieJar.clear('cs.wellesley.edu')
+        cj = cookielib.CookieJar()
+        cj.clear_session_cookies()
         tmpl = cgi_utils_sda.file_contents("NeighBoard_Unauthorized.html")
         print tmpl
 
