@@ -43,7 +43,7 @@ def store_data_in_filesystem_paranoid(postId, client_filename, file_data,
     ## Now, record the URL in the database
     url = DEST_URL + str(postId) + '.jpg'
     try:
-        ## inserts or updates picture blob for this actor
+        ## inserts or updates picture blob for this post
         rows_mod = cursor.execute('''
 INSERT INTO picfile(postId,picUrl) VALUES (%s,%s)
 ON DUPLICATE KEY UPDATE picUrl=%s
