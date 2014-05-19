@@ -354,7 +354,7 @@ def addPost(boards, subject, message, tags, image, owner_id):
             post_row = curs.fetchone()
 
             if post_row is not None:
-                postIds.append(post_row['form_id'])
+                postIds.append(post_row['formId'])
 
         else:
             failed_to_send += board + ","
