@@ -58,8 +58,8 @@ phpCAS::forceAuthentication();
  
 // logout if desired
 // if (isset($_REQUEST['logout'])) {
-//     phpCAS::logout();
-//     die();
+//      phpCAS::logout();
+//      die();
 // }
 
 setcookie('PHPSESSID', false);
