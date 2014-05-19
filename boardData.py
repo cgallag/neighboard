@@ -111,8 +111,13 @@ def is_user(session_id):
                      (session_id,))
 
     row = curs.fetchone()
+    username = row['username']
 
-    if row is None:
+    curs.execute("select * from user where username=%s", (username,))
+
+    user_row = curs.fetchone()
+
+    if user_row is None:
         return False
     else:
         return True
