@@ -1,5 +1,7 @@
 #!/usr/local/bin/python2.7
-#User Comment Here
+#queryData.py
+#Written by Sydney Cusack & Caroline Gallagher, Spring 2014
+#Searches the NeighBoard Database for Petitions and Posts by tags and/or date.
 
 import sys
 import os
@@ -7,64 +9,51 @@ import MySQLdb
 from neighbrd_dsn import DSN 
 import dbconn
 
+#Connects to the database, queries by a given tag value, returns all posts with that tag value.
 def searchByTags(tagValues):
+	#Connect to database
 	DSN['database'] = 'neighbrd_db'
 	conn = dbconn.connect(DSN)
-	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-
-	for tagValue in tagValues:
-		tagname = tagValue.strip().lower().replace(" ", "-")
-		#print tagname
-		
-		curs.execute("select name, title, content, created, value from form inner join tag inner join board where formId=postId and form.boardId=board.boardId and value=%s and form.type!='feedback'", (tagValue,))
-
-		isFirst = True
-		posts = []
 	
-		start_post_active = "<p class='text'>"
-					
-		start_post = "<p class='text'>"
+	#Execute query	
+	curs.execute("select formId, name, title, content, created, value from form inner join tag inner join board where formId=postId and form.boardId=board.boardId and value=%s and form.type!='feedback'", (tagValues,))
+	posts = []
+	
+	#HTML code to format results
+	start_post = "<p class='text'>"
 
-		post_html = "<h4 class='text'>{title}</h4><p>Board: {name}</p><p>{content}</p><p>Date: {created}</p><p>Tags: {value}</p>"
+	post_html = "<h4 class='text'>{title}</h4><p>Board: {name}</p><p>{content}</p><p>Date: {created}</p>"
 			
-		end_post = "</p> </p>"
+	end_post = "</p> </p>"
 
-		while True:
-			row = curs.fetchone()
+	#For each row, format.  Each post is unique, based on which board it was sent to
+	while True:
+		row = curs.fetchone()
 
-			if row == None:
-				return "\n".join(posts)
-				
-			if isFirst:
-				posts.append(start_post_active.format(**row))
-				posts.append(post_html.format(**row))
-				posts.append(end_post.format(**row))
-				isFirst = False
-
-			else:
-				posts.append(start_post.format(**row))
-				posts.append(post_html.format(**row))
-				posts.append(end_post.format(**row))
+		if row == None:
+			return "\n".join(posts)			
+		else:
+			posts.append(start_post.format(**row))
+			posts.append(post_html.format(**row))
+			#posts.append(displayTags(row['formId']))
+			posts.append(end_post.format(**row))
 			
-
+#Connects to the database, queries whatever date constraints the user provides, and returns all dates within those constraints.
 def searchByDate(searchDate):
+	#Connect to Database
 	DSN['database'] = 'neighbrd_db'
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-
+	#format the given date for the SQL query
 	formatSearchDate=str("%"+searchDate+"%")
-
-	#print formatSearchDate
 
 	curs.execute("select title, content, name, created from form inner join board where form.boardId=board.boardId and form.type!='feedback' and created like %s", (formatSearchDate,))
 
-	isFirst = True
 	posts = []
 	
-	start_post_active = "<p class='text'>"
-			
+	#HTML to format results		
 	start_post = "<p class='text'>"
 
 	post_html = "<h4 class='text'>{title}</h4><p>{content}</p><p>Date: {created}</p>"
@@ -76,13 +65,6 @@ def searchByDate(searchDate):
 
 		if row == None:
 			return "\n".join(posts)
-
-		if isFirst:
-			posts.append(start_post_active.format(**row))
-			posts.append(post_html.format(**row))
-			posts.append(end_post.format(**row))
-			isFirst = False
-
 		else:
 			posts.append(start_post.format(**row))
 			posts.append(post_html.format(**row))
@@ -122,7 +104,7 @@ def getTags():
 	conn = dbconn.connect(DSN)
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
-	curs.execute("select value as tagName from tag")
+	curs.execute("select value from tag")
 	
 	#Need to add the menu elements here, using the results
 	#from the database query.
@@ -130,24 +112,29 @@ def getTags():
 	names = []
 	while True:
 		row = curs.fetchone()
-		if row['tagName'] not in repeatnames:
-			names.append("<option>{tagName}</option>".format(**row))
-			repeatnames.append(row['tagName'])
 		if row == None:
 			return "\n".join(names)
+		if row['value'] not in repeatnames:
+			names.append("<option>{value}</option>".format(**row))
+			repeatnames.append(row['value'])
 		
 
-def display_name(conn, creator):
-    curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    curs.execute("select * from user where userId=%s", (creator,))
-    row = curs.fetchone()
+def displayTags(postId):
+	DSN['database'] = 'neighbrd_db'
+	conn = dbconn.connect(DSN)
+	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+	curs.execute("select * from tag where postId=%s", (postId,))
 
-    name = row["name"]
+	tags = ""
 
-    if row is None:
-        return ""
-    else:
-        return "<small>By " + name + "</small>"    
+	while True:
+		row = curs.fetchone()
+
+		if row is None:
+			return tags
+
+			if row['value'] != "":
+				tags = tags+("<p>Tags: {value}</p>").format(**row)
 
 def main():
 	searchByTags("testTag")
