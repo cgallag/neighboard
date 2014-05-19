@@ -166,7 +166,7 @@ def displayPetition(petitionName):
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-	curs.execute("select title as title, content as content, created as date, name from form inner join board where form.boardId=board.boardId and type='petition' and title=%s", (petitionName,))
+	curs.execute("select title as title, content as content, created as date, name from form inner join board where form.boardId=board.boardId and form.type='petition' and title=%s", (petitionName,))
 	petition = []
 	while True:
 		row = curs.fetchone()
