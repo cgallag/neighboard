@@ -59,11 +59,11 @@ def addFeedback(boardname, subject, message, creator):
     	curs.execute("insert into form values (%s, %s, %s, %s, %s, 2, 'feedback')", 
         	(feedbackId, boardID, current_time, subject, message,))
     	print "executed query"
-	# 	sent += boardname + ","
-	# if failed_to_send != "":
-	# 	unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
-	# else:
-	# 	unsent = ""
+		sent += boardname + ","
+	if failed_to_send != "":
+		unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
+	else:
+		unsent = ""
 	return "Post sent to " #+ sent.rstrip(",") + "<br>" + unsent
 
 
