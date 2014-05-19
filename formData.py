@@ -46,6 +46,7 @@ def addFeedback(boardname, subject, message, creator):
 	numrows = curs.rowcount
 	if numrows!=0:
 		boardID=board_row['id']
+	print boardID
 	
 
 	if board_row != None:
@@ -55,13 +56,13 @@ def addFeedback(boardname, subject, message, creator):
 			board_row=curs.fetchone()
 			boardID=board_row['id']+1
 			curs.execute("insert into board values(%s, %s, %s, %s, 'feedback', 'private', 'staff')", (boardID, boardnameStr, boardname,creator,))
-		curs.execute("insert into form values (%s, %s, %s, %s, %s, %s, 'feedback')", (feedbackId, boardID, current_time, subject, message, user_dict['user_id']),)
-		sent += boardnameStr + ","
+		curs.execute("insert into form values (%s, %s, %s, %s, %s, %s, 'feedback')", (feedbackId, boardID, current_time, subject, message, creator,))
+		sent = sent+boardnameStr 
 		if failed_to_send != "":
 			unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
 		else:
 			unsent = ""
-		return "Post sent to " + sent.rstrip(",") + "<br>" + unsent
+		return "Post sent to " + sent + "<br>" + unsent
 
 
 def get_user(session_id):
@@ -109,6 +110,6 @@ def display_name(conn, creator):
 
     
 if __name__ == "__main__":
-        #addFeedback('kbottoml', 'feedback test', 'kbot is awesome sauce')
+        addFeedback('kbottoml', 'feedback test', 'kbot is awesome sauce',2)
         #addFeedback('rpurcell', 'duplicate test', 'CAPS TO FIND IT')
-        print getAdmin()
+        #print getAdmin()
