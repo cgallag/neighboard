@@ -103,6 +103,21 @@ def display_image(conn, postId):
         return ""
 
 
+def is_user(session_id):
+    conn = dbconn.connect(DSN)
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+
+    curs.execute("select * from usersessions where sessionkey=%s",
+                     (session_id,))
+
+    row = curs.fetchone()
+
+    if row is None:
+        return False
+    else:
+        return True
+
+
 # Find the user given the session id
 def get_user(session_id):
     conn = dbconn.connect(DSN)

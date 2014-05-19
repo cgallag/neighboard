@@ -18,81 +18,88 @@ if __name__ == '__main__':
     except:
         session_id = "null"
 
-    user_dict = boardData.get_user(session_id)
-    name = user_dict['name']
+    # Display unauthorized user page if user is not in user database
+    if not boardData.is_user(session_id):
+        tmpl = cgi_utils_sda.file_contents("NeighBoard_Unauthorized")
+        print tmpl
 
-    # Process data from new board and new post forms
-    form_data = cgi.FieldStorage()
+    else:
 
-    board_values = {
-        'title': '',
-        'category': 'all',
-        'visibility': 'public'
-    }
+        user_dict = boardData.get_user(session_id)
+        name = user_dict['name']
 
-    post_values = {
-        'recipients': [],
-        'subject': '',
-        'message': '',
-        'tags': []
-    }
+        # Process data from new board and new post forms
+        form_data = cgi.FieldStorage()
 
-    # Processing new board
-    if 'new-board-title' in form_data:
-        board_values['title'] = cgi.escape(
-            form_data.getfirst('new-board-title'))
+        board_values = {
+            'title': '',
+            'category': 'all',
+            'visibility': 'public'
+        }
 
-        if 'category' in form_data:
-            board_values['category'] = cgi.escape(
-                form_data.getfirst('category'))
+        post_values = {
+            'recipients': [],
+            'subject': '',
+            'message': '',
+            'tags': []
+        }
 
-        if 'visibility' in form_data:
-            board_values['visibility'] = cgi.escape(
-                form_data.getfirst('visibility'))
+        # Processing new board
+        if 'new-board-title' in form_data:
+            board_values['title'] = cgi.escape(
+                form_data.getfirst('new-board-title'))
 
-        feedback = boardData.addBoard(board_values['title'],
-                                      board_values['visibility'],
-                                      board_values['category'],
-                                      user_dict['user_id'])
+            if 'category' in form_data:
+                board_values['category'] = cgi.escape(
+                    form_data.getfirst('category'))
 
-    # Processing new post
-    if 'new-post-recipients' in form_data:
-        post_values['recipients'] = cgi.escape(
-            form_data.getfirst('new-post-recipients')).split(',')
+            if 'visibility' in form_data:
+                board_values['visibility'] = cgi.escape(
+                    form_data.getfirst('visibility'))
 
-        if 'new-post-subject' in form_data:
-            post_values['subject'] = cgi.escape(
-                form_data.getfirst('new-post-subject'))
+            feedback = boardData.addBoard(board_values['title'],
+                                          board_values['visibility'],
+                                          board_values['category'],
+                                          user_dict['user_id'])
 
-        if 'new-post-message' in form_data:
-            post_values['message'] = cgi.escape(
-                form_data.getfirst('new-post-message'))
+        # Processing new post
+        if 'new-post-recipients' in form_data:
+            post_values['recipients'] = cgi.escape(
+                form_data.getfirst('new-post-recipients')).split(',')
 
-        if 'new-post-tags' in form_data:
-            post_values['tags'] = cgi.escape(
-                form_data.getfirst('new-post-tags')).split(',')
+            if 'new-post-subject' in form_data:
+                post_values['subject'] = cgi.escape(
+                    form_data.getfirst('new-post-subject'))
 
-        if form_data.has_key('new-post-image'):
-            image = form_data['new-post-image']
-        else:
-            image = None
+            if 'new-post-message' in form_data:
+                post_values['message'] = cgi.escape(
+                    form_data.getfirst('new-post-message'))
 
-        feedback = boardData.addPost(post_values['recipients'],
-                                     post_values['subject'],
-                                     post_values['message'],
-                                     post_values['tags'],
-                                     image,
-                                     user_dict['user_id'])
+            if 'new-post-tags' in form_data:
+                post_values['tags'] = cgi.escape(
+                    form_data.getfirst('new-post-tags')).split(',')
+
+            if form_data.has_key('new-post-image'):
+                image = form_data['new-post-image']
+            else:
+                image = None
+
+            feedback = boardData.addPost(post_values['recipients'],
+                                         post_values['subject'],
+                                         post_values['message'],
+                                         post_values['tags'],
+                                         image,
+                                         user_dict['user_id'])
 
 
-    # Stuff to print boards
-    boardnames = boardData.getBoardNames()
-    [boards_col1, boards_col2] = boardData.displayBoards()
-    tmpl = cgi_utils_sda.file_contents('NeighBoard_Home.html')
+        # Stuff to print boards
+        boardnames = boardData.getBoardNames()
+        [boards_col1, boards_col2] = boardData.displayBoards()
+        tmpl = cgi_utils_sda.file_contents('NeighBoard_Home.html')
 
-    page = tmpl.format(feedback=feedback,
-                       name=name,
-                       boardnames=boardnames,
-                       first_col_boards=boards_col1,
-                       second_col_boards=boards_col2)
-    print page
+        page = tmpl.format(feedback=feedback,
+                           name=name,
+                           boardnames=boardnames,
+                           first_col_boards=boards_col1,
+                           second_col_boards=boards_col2)
+        print page
