@@ -6,12 +6,29 @@ import cgitb; cgitb.enable()
 import cgi_utils_sda
 import queryData
 
-if __name__ == '__main__':
+if __name__ == '__main__':	
 	print "Content-type: text/html\n"
 
 	feedbackTags = ""
 
 	feedbackDate = ""
+
+	name=""
+
+
+	try:
+		session_cookie = cgi_utils_sda.getCookieFromRequest('PHPSESSID')
+		session_id = session_cookie.value
+	except:
+		session_id = "null"
+	
+	user_dict = queryData.get_user(session_id)
+	name = user_dict['name']
+
+
+
+
+	
 
 	# Process data from new board and new post forms
 	form_data = cgi.FieldStorage()
@@ -28,7 +45,6 @@ if __name__ == '__main__':
 
 
 	if 'tags' in form_data:
-		feedbackDate="Test Value 2"
 		tag_values['tags'] = cgi.escape(form_data.getfirst('tags')).split(',')
 		feedbackTags = queryData.searchByTags(tag_values['tags'])
 		
@@ -47,13 +63,9 @@ if __name__ == '__main__':
 			searchDate = searchDate+"-"+date_values['day']
 
 		feedbackDate = queryData.searchByDate(searchDate)
-		#feedbackDate = "Search Value: "+searchDate+" Test Value 3"
-
-	
-	
-
+		
 	tmpl = cgi_utils_sda.file_contents('NeighBoardQueries.html')
-	page = tmpl.format(feedbackTags=feedbackTags, feedbackDate=feedbackDate)
+	page = tmpl.format(feedbackTags=feedbackTags, feedbackDate=feedbackDate, name=name)
 	print page
 
 

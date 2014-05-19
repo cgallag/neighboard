@@ -33,14 +33,15 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav pages">
         <li id="home-nav"><a href="NeighBoardPosts.cgi">Home</a></li>
-        <li id="feedback-nav"><a href="NeighBoard_Form.html">Feedback</a></li>
-        <li id="petitions-nav" class="active"><a href="NeighBoard_Petition.html">Petitions</a></li>
+        <li id="feedback-nav"><a href="NeighBoardFeedback.cgi">Feedback</a></li>
+        <li id="petitions-nav" class="active"><a href="NeighBoardPetitions.cgi">Petitions</a></li>
         <li id="queries-nav"><a href="NeighBoardQueries.cgi">Search</a></li>
+        <li id="logout-nav"><a href="Logout.php">Logout</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right pages">
         <p class="navbar-text">
             <span class="glyphicon glyphicon-user"></span>
-            Caroline Gallagher
+            {name}
         </p>
         <li id="settings-nav"><a href="#settings"><span class="glyphicon glyphicon-cog"></span></a></li>
       </ul>
@@ -57,11 +58,8 @@
             <div class="bs-docs-sidebar hidden-print" role="complementary">
               <ul class="nav bs-docs-sidenav" id="board-manager">
         
-                  <li id="new-petition">
-                    <a href="#">New Petition</a>
-                  </li>
                   <li id="petition-list">
-                    <a href="#">Existing Petitions</a>
+                    <h4>Recent Petitions</h4>
                       <div class="col-md-offset-1">
                         <ul class="nav"> <!-- style="display: none;"> -->
                           {petitionnames}
@@ -73,14 +71,9 @@
           </div>
         </div><!-- col-md-2 -->
   <div class="col-md-10 pull-right">
+    
   <h2>Create A Petition</h2> 
-    <form class="form-horizontal" role="form">
-      <div class="form-group">
-        <label for="username1" class="col-md-2 control-label">Username</label>
-        <div class="col-md-10">
-          <input type="text" class="form-control" id="username1" name="username1" placeholder="Username">
-        </div>
-      </div>
+    <form class="form-horizontal" role="form" id="addForm" name="addForm">
       <div class="form-group">
         <label for="board1" class="col-md-2 control-label">Boards</label>
         <div class="col-md-10">
@@ -113,19 +106,71 @@
 
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <div class="checkbox">
-            <label>
-              <input type="checkbox"> send me a copy of my results
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
           <button type="submit" class="btn btn-success btn-lg">Submit</button>
         </div>
       </div>
+
     </form>
+
+<form class="form-horizontal" role="form" id="searchForm" name="searchForm">  
+      <h2>Search For A Petition</h2> 
+
+  <div class="form-group">
+    <label for="searchmenu" class="col-md-2 control-label">Petitions</label>
+      <select class="col-md-4" name="searchmenu" id="searchmenu">
+        {petitionOptions2}
+      </select>
+    </div>
+
+
+        <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-success btn-lg" id="search" name="search">Search</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+    {petitionContent}
+    </div>
+      </form>
+
+
+    <form class="form-horizontal" role="form" id="sigForm" name="sigForm">  
+      <h2>Sign An Existing Petition</h2> 
+
+  <div class="form-group">
+    <label for="sigmenu" class="col-md-2 control-label">Petitions</label>
+      <select class="col-md-4" name = "sigmenu" id="sigmenu">
+        {petitionOptions}
+      </select>
+    </div>
+
+    <div class="form-group">
+    <label for="sigdates" class="col-md-2 control-label">Dates</label>
+      <select class="col-md-4" name = "sigdates" id="sigdates">
+        {petitionDates}
+        </select>
+    </div>
+
+
+      <div class="form-group">
+        <label for="signature" class="col-md-2 control-label">Sign</label>
+        <div class="col-md-4">
+          <select class="col-md-4" name="signature" id="signature">
+          <option>no</option>
+          <option>yes</option>
+          </select> 
+          </div>
+
+        </div>
+
+        <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-success btn-lg" id="sign" name="sign">Sign</button>
+        </div>
+      </div>
+      </form>
+      </div>
   </div>
 </div>
 

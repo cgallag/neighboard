@@ -33,14 +33,15 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav pages">
           <li id="home-nav"><a href="NeighBoardPosts.cgi">Home</a></li>
-          <li id="feedback-nav" class="active"><a href="NeighBoard_Form.html">Feedback</a></li>
-          <li id="petitions-nav"><a href="NeighBoard_Petition.html">Petitions</a></li>
+          <li id="feedback-nav" class="active"><a href="NeighBoardFeedback.cgi">Feedback</a></li>
+          <li id="petitions-nav"><a href="NeighBoardPetitions.cgi">Petitions</a></li>
           <li id="queries-nav"><a href="NeighBoardQueries.cgi">Search</a></li>
+          <li id="logout-nav"><a href="Logout.php">Logout</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right pages">
           <p class="navbar-text">
               <span class="glyphicon glyphicon-user"></span>
-              Caroline Gallagher
+              {name}
           </p>
           <li id="settings-nav"><a href="#settings"><span class="glyphicon glyphicon-cog"></span></a></li>
         </ul>
@@ -78,11 +79,6 @@
 
 <div class "row"> 
 <div class="col-md-offset-1 col-md-3">
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Send Me a Copy of my Results
-    </label>
-  </div>
   <div class="col-md-3">
   <button type="submit" class="btn btn-success btn-lg">Submit</button>
 </div>
