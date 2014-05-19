@@ -55,7 +55,7 @@ setcookie('PHPSESSID',false);
 phpCAS::logout();
 die();
 
-header("Location: /phpCASexample.php");
+header("Location: http://cs.wellesley.edu/~neighbrd/phpCASexample.php");
 exit;
 
 
