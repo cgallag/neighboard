@@ -22,8 +22,8 @@ if __name__ == '__main__':
     # Display unauthorized user page if user is not in user database
     if not boardData.is_user(session_id):
         c = Cookie.SimpleCookie()
-        c['expires_at_time'] = 0
-        cgi_utils_sda.setCookie(c, 'PHPSESSID', False)
+        c['max-age'] = 0
+        cgi_utils_sda.setCookie(c, 'PHPSESSID', 'false')
         tmpl = cgi_utils_sda.file_contents("NeighBoard_Unauthorized.html")
         print tmpl
 
