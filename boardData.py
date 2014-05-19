@@ -4,7 +4,7 @@ import math
 from datetime import datetime
 import sys
 import os
-import base64
+import binascii
 
 import MySQLdb
 from neighbrd_dsn import DSN
@@ -26,43 +26,49 @@ def filesize(absfilename):
 def store_data_in_filesystem_paranoid(client_filename, file_data):
     '''Stores data checking for lots of errors'''
     dest_file = DEST_DIR + str(client_filename) + '.jpg'
+
     try:
         stream = open(dest_file, 'wb')
     except Exception as e:
-        return 'Failure to open output file %s: %s' % (dest_file, e)
+        return False
+        #return 'Failure to open output file %s: %s' % (dest_file, e)
     try:
         stream.write(file_data)
     except Exception as e:
-        return 'Failure to copy file data to %s: %s' % (dest_file, e)
+        return False
+        #return 'Failure to copy file data to %s: %s' % (dest_file, e)
     try:
         os.chmod(dest_file, 0644)
     except Exception as e:
-        return 'Failure to make file %s world-readable: %s' % (dest_file, e)
+        return False
+        #return 'Failure to make file %s world-readable: %s' % (dest_file, e)
 
     ## Now, record the URL in the database
-    url = DEST_URL + str(client_filename) + '.jpg'
-
-    return url
+    return True
 
 
 def process_file_upload(client_filename, local_file):
     ## Test if the file was uploaded
     if not client_filename:
-        return 'No file uploaded (yet)'
+        #return 'No file uploaded (yet)'
+        return False
 
     file_data = local_file.read()
     ## Double check whether the file upload is too big
     if len(file_data) > MAX_FILE_SIZE:
-        return 'Uploaded file is too big: ' + str(len(file_data))
+        #return 'Uploaded file is too big: ' + str(len(file_data))
+        return False
 
     if client_filename is None:
-        return 'client_filename has illegal value: %s' % client_filename
+        #return 'client_filename has illegal value: %s' % client_filename
+        return False
 
     return store_data_in_filesystem_paranoid(client_filename, file_data)
 
 
-def add_image_to_post(postId, url, client_filename, cursor):
+def add_image_to_post(postId, client_filename, cursor):
     dest_file = DEST_DIR + str(client_filename) + '.jpg'
+    url = DEST_URL + str(client_filename) + '.jpg'
 
     try:
         ## inserts or updates picture blob for this post
@@ -359,11 +365,12 @@ def addPost(boards, subject, message, tags, image, owner_id):
         else:
             failed_to_send += board + ","
 
-    image_filename = str(base64.b64encode(os.urandom(16)))
-    pic_url = process_file_upload(image_filename, image.file)
+    image_filename = binascii.b2a_hex(os.urandom(15))
+    did_upload = process_file_upload(image_filename, image.file)
 
-    for post in postIds:
-        add_image_to_post(post, pic_url, image_filename, curs)
+    if did_upload:
+        for post in postIds:
+            add_image_to_post(post, image_filename, curs)
 
     if failed_to_send != "":
         unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
