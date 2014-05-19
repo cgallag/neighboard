@@ -62,7 +62,7 @@ phpCAS::forceAuthentication();
 //     die();
 // }
 
-setcookie('PHPSESSID', false)
+setcookie('PHPSESSID', false);
 $user = phpCAS::getUser();
 $strUser = strval($user);
 print $strUser;
