@@ -53,7 +53,6 @@ phpCAS::setNoCasServerValidation();
 // logout if desired
 setcookie('PHPSESSID',false);
 phpCAS::logout();
-die();
 
 header("Location: http://cs.wellesley.edu/~neighbrd/phpCASexample.php");
 exit;
