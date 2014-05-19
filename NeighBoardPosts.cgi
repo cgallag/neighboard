@@ -95,7 +95,7 @@ if __name__ == '__main__':
 
         # Stuff to print boards
         boardnames = boardData.getBoardNames()
-        [boards_col1, boards_col2] = boardData.displayBoards()
+        boards_col1, boards_col2 = boardData.displayBoards()
         tmpl = cgi_utils_sda.file_contents('NeighBoard_Home.html')
 
         page = tmpl.format(feedback=feedback,

@@ -308,6 +308,10 @@ def addBoard(name, privacy_level, category, owner_id):
 
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
+    # If the board's name is CS department, then the board's mailname
+    # is cs-department. This allows the system to recognize a board name
+    # even if the user does not type the correct caps, and provides
+    # standardization.
     mailname = name.strip().lower().replace(" ", "-")
 
     curs.execute("select * from board where mailname=%s", (mailname,))
