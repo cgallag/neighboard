@@ -61,7 +61,7 @@ def addFeedback(boardname, subject, message, creator):
 			unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
 		else:
 			unsent = ""
-		return "Post sent to " + sent.rstrip(",") + "<br>" + unsent
+		return "Post sent to " + sent + "<br>" + unsent
 
 
 def get_user(session_id):
