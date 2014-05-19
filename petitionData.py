@@ -25,7 +25,7 @@ def getPetitionNames():
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-	curs.execute("select formId, title, name, created from form inner join board where form.type='petition' and form.boardId=board.boardId")
+	curs.execute("select formId, title, name, created from form inner join board where form.type='petition' and form.boardId=board.boardId order by created desc")
 	names = []
 	numpetitions = 0
 	while (True and numpetitions<4):
