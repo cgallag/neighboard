@@ -110,6 +110,6 @@ def display_name(conn, creator):
 
     
 if __name__ == "__main__":
-        addFeedback('kbottoml', 'feedback test', 'kbot is awesome sauce')
+        addFeedback('kbottoml', 'feedback test', 'kbot is awesome sauce',2)
         #addFeedback('rpurcell', 'duplicate test', 'CAPS TO FIND IT')
         #print getAdmin()
