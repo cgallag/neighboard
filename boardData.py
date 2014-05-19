@@ -4,7 +4,7 @@ import math
 from datetime import datetime
 import sys
 import os
-
+import base64
 
 import MySQLdb
 from neighbrd_dsn import DSN
@@ -23,10 +23,9 @@ def filesize(absfilename):
     return stat.st_size
 
 
-def store_data_in_filesystem_paranoid(postId, client_filename, file_data,
-                                      cursor):
+def store_data_in_filesystem_paranoid(client_filename, file_data):
     '''Stores data checking for lots of errors'''
-    dest_file = DEST_DIR + str(postId) + '.jpg'
+    dest_file = DEST_DIR + str(client_filename) + '.jpg'
     try:
         stream = open(dest_file, 'wb')
     except Exception as e:
@@ -41,7 +40,30 @@ def store_data_in_filesystem_paranoid(postId, client_filename, file_data,
         return 'Failure to make file %s world-readable: %s' % (dest_file, e)
 
     ## Now, record the URL in the database
-    url = DEST_URL + str(postId) + '.jpg'
+    url = DEST_URL + str(client_filename) + '.jpg'
+
+    return url
+
+
+def process_file_upload(client_filename, local_file):
+    ## Test if the file was uploaded
+    if not client_filename:
+        return 'No file uploaded (yet)'
+
+    file_data = local_file.read()
+    ## Double check whether the file upload is too big
+    if len(file_data) > MAX_FILE_SIZE:
+        return 'Uploaded file is too big: ' + str(len(file_data))
+
+    if client_filename is None:
+        return 'client_filename has illegal value: %s' % client_filename
+
+    return store_data_in_filesystem_paranoid(client_filename, file_data)
+
+
+def add_image_to_post(postId, url, client_filename, cursor):
+    dest_file = DEST_DIR + str(client_filename) + '.jpg'
+
     try:
         ## inserts or updates picture blob for this post
         rows_mod = cursor.execute('''
@@ -60,23 +82,6 @@ ON DUPLICATE KEY UPDATE picUrl=%s
             (client_filename, dest_file, url))
 
 
-def process_file_upload(postId, client_filename, local_file, cursor):
-    ## Test if the file was uploaded
-    if not client_filename:
-        return 'No file uploaded (yet)'
-
-    file_data = local_file.read()
-    ## Double check whether the file upload is too big
-    if len(file_data) > MAX_FILE_SIZE:
-        return 'Uploaded file is too big: ' + str(len(file_data))
-
-    if postId is None:
-        return 'postId has illegal value: %s' % postId
-
-    return store_data_in_filesystem_paranoid(postId, client_filename,
-                                             file_data, cursor)
-
-
 def add_image(conn, boardId, current_time, filename, filedata):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
 
@@ -87,7 +92,7 @@ def add_image(conn, boardId, current_time, filename, filedata):
     post_row = curs.fetchone()
     if post_row is not None:
         postId = post_row['formId']
-        return process_file_upload(postId, filename, filedata, curs)
+        return process_file_upload(filename, filedata)
 
 
 def display_image(conn, postId):
@@ -321,6 +326,9 @@ def addPost(boards, subject, message, tags, image, owner_id):
     sent = ""
     failed_to_send = ""
 
+    # For keeping track of posts that should have images with them.
+    postIds = []
+
     for board in boards:
         mailname = board.strip().lower().replace(" ", "-")
         #print 'Searching for board ' + mailname
@@ -340,13 +348,22 @@ def addPost(boards, subject, message, tags, image, owner_id):
 
             addTags(boardId, current_time, tags, conn)
 
-            if image is not None:
-                add_image(conn, boardId, current_time, image.filename, image.file)
+            curs.execute("select formId from form where boardId=%s and created=%s and type='post'",
+                (boardId, current_time))
 
-            sent += board + ","
+            post_row = curs.fetchone()
+
+            if post_row is not None:
+                postIds.append(post_row['form_id'])
 
         else:
             failed_to_send += board + ","
+
+    image_filename = str(base64.b64encode(os.urandom(16)))
+    pic_url = process_file_upload(image_filename, image.file)
+
+    for post in postIds:
+        add_image_to_post(post, pic_url, image_filename, curs)
 
     if failed_to_send != "":
         unsent = "Post could not be sent to " + failed_to_send.rstrip(",")
