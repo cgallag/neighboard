@@ -75,15 +75,16 @@ def get_user(session_id):
 		'user_id': "",
 		'name': ""
 	}
-	#
+	
 	try:
+		#use session id associatd with user to pull additional data
 		curs.execute("select * from usersessions where sessionkey=%s",
 			(session_id,))
 
 		row = curs.fetchone()
 		username = row['username']
 		user_dict['username'] = username
-		#use session id associatd with user to pull additional data
+		#use username pulled from usersessions table to query more data
 		curs.execute("select * from user where username=%s", (username,))
 
 		user_row = curs.fetchone()
@@ -94,20 +95,6 @@ def get_user(session_id):
 		pass
 
 	return user_dict
-
-
-# def display_name(conn, creator):
-# 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-# 	curs.execute("select * from user where userId=%s", (creator,))
-# 	row = curs.fetchone()
-
-# 	name = row["name"]
-
-# 	if row is None:
-# 		return ""
-# 	else:
-# 		return "<small>By " + name + "</small>" 
-	
 
     
 if __name__ == "__main__":
