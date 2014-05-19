@@ -147,26 +147,26 @@ def addPetition(boards, title, message, tags, creator):
 	return "Post sent to " + sent.rstrip(",") + "<br>" + unsent
 
 
-def displayTags(postId, conn):
-	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-	curs.execute("select * from tag where postId=%s", (postId,))
+# def displayTags(postId, conn):
+# 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
+# 	curs.execute("select * from tag where postId=%s", (postId,))
 
-	tags = ""
+# 	tags = ""
 
-	while True:
-		row = curs.fetchone()
+# 	while True:
+# 		row = curs.fetchone()
 
-		if row == None:
-			return tags
+# 		if row == None:
+# 			return tags
 
-		tags += "#" + row['value'].lower().strip() + " "
+# 		tags += "#" + row['value'].lower().strip() + " "
 
 def displayPetition(petitionName):
 	DSN['database'] = 'neighbrd_db'
 	conn = dbconn.connect(DSN)
 	
 	curs = conn.cursor(MySQLdb.cursors.DictCursor)
-	curs.execute("select title as title, content as content, created as date from form where type='petition' and title=%s", (petitionName,))
+	curs.execute("select title as title, content as content, created as date, name from form inner join board where form.boardId=board.boardId and type='petition' and title=%s", (petitionName,))
 	petition = []
 	while True:
 		row = curs.fetchone()
@@ -174,6 +174,7 @@ def displayPetition(petitionName):
 			return "\n".join(petition)
 		petition.append("<h4>{title}</h4>".format(**row))
 		petition.append("<p class='text'>{content}</p>".format(**row))
+		petition.append("<p class='text'>Posted To: {name}</p>".format(**row))
 		petition.append("<p class='text'>Created On: {date}</p>".format(**row))
 
 def get_user(session_id):
