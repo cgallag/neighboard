@@ -5,6 +5,7 @@ from datetime import datetime
 import sys
 import os
 import binascii
+import imghdr
 
 import MySQLdb
 from neighbrd_dsn import DSN
@@ -100,7 +101,6 @@ def add_image(conn, boardId, current_time, filename, filedata):
 
     post_row = curs.fetchone()
     if post_row is not None:
-        postId = post_row['formId']
         return process_file_upload(filename, filedata)
 
 
@@ -372,9 +372,9 @@ def addPost(boards, subject, message, tags, image, owner_id):
         else:
             failed_to_send += board + ","
 
-    if image.file is not None:
-        image_filename = binascii.b2a_hex(os.urandom(15))
-        did_upload = process_file_upload(image_filename, image.file)
+    if image.file is not None and imghdr.what(image.file) is not None:
+            image_filename = binascii.b2a_hex(os.urandom(15))
+            did_upload = process_file_upload(image_filename, image.file)
     else:
         did_upload = False
 
