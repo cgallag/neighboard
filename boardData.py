@@ -59,6 +59,9 @@ def process_file_upload(client_filename, local_file):
         #return 'Uploaded file is too big: ' + str(len(file_data))
         return False
 
+    if len(file_data) == 0:
+        return False
+
     if client_filename is None:
         #return 'client_filename has illegal value: %s' % client_filename
         return False
@@ -369,7 +372,7 @@ def addPost(boards, subject, message, tags, image, owner_id):
         else:
             failed_to_send += board + ","
 
-    if image is not None:
+    if image.file is not None:
         image_filename = binascii.b2a_hex(os.urandom(15))
         did_upload = process_file_upload(image_filename, image.file)
     else:
