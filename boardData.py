@@ -372,6 +372,10 @@ def addPost(boards, subject, message, tags, image, owner_id):
         else:
             failed_to_send += board + ","
 
+    # imghdr.what(image.file) returns the image file type, and None otherwise.
+    # It does not work for all images, such as svg and xcf, but it works for most.
+    # We thought that the security implications of allowing someone to upload
+    # a malicious non-image file was worse than omitting a few image files.
     if image.file is not None and imghdr.what(image.file) is not None:
             image_filename = binascii.b2a_hex(os.urandom(15))
             did_upload = process_file_upload(image_filename, image.file)
