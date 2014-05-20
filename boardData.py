@@ -369,8 +369,11 @@ def addPost(boards, subject, message, tags, image, owner_id):
         else:
             failed_to_send += board + ","
 
-    image_filename = binascii.b2a_hex(os.urandom(15))
-    did_upload = process_file_upload(image_filename, image.file)
+    if image is not None:
+        image_filename = binascii.b2a_hex(os.urandom(15))
+        did_upload = process_file_upload(image_filename, image.file)
+    else:
+        did_upload = False
 
     if did_upload:
         for post in postIds:
