@@ -186,7 +186,7 @@ def displayBoards():
 
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
     curs.execute(
-        "select boardId, name, mailname from board where type='board'")
+        "select boardId, name, mailname from board where type='board' or type='petition'")
     total_boards = curs.rowcount
 
     boards_printed = 0
@@ -363,6 +363,8 @@ def addPost(boards, subject, message, tags, image, owner_id):
 
             if post_row is not None:
                 postIds.append(post_row['formId'])
+
+            sent += board
 
         else:
             failed_to_send += board + ","
